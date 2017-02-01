@@ -1,0 +1,114 @@
+tap 'caskroom/cask'
+tap 'homebrew/bundle'
+tap 'homebrew/core'
+tap 'homebrew/services'
+tap 'homebrew/versions'
+
+# Packages
+brew 'ack'
+brew 'ag'
+brew 'autoconf'
+brew 'awscli'
+# Install GNU core utilities (those that come with OS X are outdated)
+# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
+brew 'coreutils'
+# cmake is required to compile vim bundle YouCompleteMe
+brew 'cmake'
+brew 'dark-mode'
+# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
+brew 'findutils'
+brew 'ffmpeg'
+brew 'gawk'
+brew 'gdbm'
+brew 'gnupg'
+# Install GNU `sed`, overwriting the built-in `sed`
+# so we can do "sed -i 's/foo/bar/' file" instead of "sed -i '' 's/foo/bar/' file"
+brew 'gnu-sed --with-default-names'
+# better, more recent grep
+brew 'homebrew/dupes/grep'
+# https://github.com/jkbrzt/httpie
+brew 'httpie'
+brew 'imagemagick'
+brew 'imagesnap'
+# jq is a sort of JSON grep
+brew 'jq'
+brew 'lame'
+brew 'mackup'
+# Mac App Store CLI: https://github.com/mas-cli/mas
+brew 'mas'
+# Install some other useful utilities like `sponge`
+brew 'moreutils'
+brew 'mysql@5.5'
+brew 'nmap'
+brew 'node'
+brew 'openssl'
+brew 'pkg-config'
+brew 'pv'
+brew 'python'
+brew 'readline'
+brew 'rbenv'
+brew 'reattach-to-user-namespace'
+brew 'redis', restart_service: true
+brew 'rename'
+brew 'ruby-build'
+# better/more recent version of screen
+brew 'homebrew/dupes/screen'
+brew 'speedtest_cli'
+brew 'sqlite'
+brew 'ssh-copy-id'
+brew 'swaks'
+brew 'testssl'
+brew 'tmux'
+brew 'tree'
+brew 'ttyrec'
+# better, more recent vim
+brew 'vim --with-override-system-vi'
+brew 'watch'
+brew 'webkit2png'
+# Install wget with IRI support
+brew 'wget --enable-iri',
+brew 'x264'
+brew 'xvid'
+brew 'youtube-dl'
+
+# Applications
+cask '1password'
+cask 'alfred'
+cask 'atom'
+cask 'cyberduck'
+cask 'dropbox'
+cask 'firefox'
+cask 'flux'
+cask 'github-desktop'
+cask 'google-chrome'
+# cask 'gpgtools'
+cask 'istat-menus'
+cask 'iterm2'
+cask 'little-snitch'
+cask 'micro-snitch'
+cask 'owncloud'
+cask 'postman'
+cask 'sequel-pro'
+# cask 'sizeup'
+# cask 'sketchup'
+cask 'slack'
+cask 'spectacle'
+cask 'the-unarchiver'
+cask 'vagrant'
+cask 'vagrant-manager'
+cask 'virtualbox'
+cask 'visual-studio-code'
+cask 'vlc'
+
+# Mac App Store applications
+mas 'Xcode', id: 497799835
+mas 'Rested', id: 421879749
+mas 'Keynote', id: 409183694
+mas 'Microsoft Remote Desktop', id: 715768417
+mas 'Day One', id: 1055511498
+mas 'Airmail 3', id: 918858936
+mas 'MSG Viewer for Outlook', id: 973213640
+mas 'Deliveries', id: 924726344
+mas 'Screens', id: 446107677
+mas 'Pages', id: 409201541
+mas 'MindNode 2 – Delightful Mind Mapping', id: 992076693
