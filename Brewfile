@@ -3,6 +3,7 @@ tap 'homebrew/bundle'
 tap 'homebrew/core'
 tap 'homebrew/services'
 tap 'homebrew/versions'
+tap 'homebrew/dupes'
 
 # Packages
 brew 'ack'
@@ -23,7 +24,7 @@ brew 'gdbm'
 brew 'gnupg'
 # Install GNU `sed`, overwriting the built-in `sed`
 # so we can do "sed -i 's/foo/bar/' file" instead of "sed -i '' 's/foo/bar/' file"
-brew 'gnu-sed --with-default-names'
+brew 'gnu-sed', args: ['with-default-names']
 # better, more recent grep
 brew 'homebrew/dupes/grep'
 # https://github.com/jkbrzt/httpie
@@ -62,11 +63,11 @@ brew 'tmux'
 brew 'tree'
 brew 'ttyrec'
 # better, more recent vim
-brew 'vim --with-override-system-vi'
+brew 'vim', args: ['with-override-system-vi']
 brew 'watch'
 brew 'webkit2png'
 # Install wget with IRI support
-brew 'wget --enable-iri',
+brew 'wget', args: ['enable-iri']
 brew 'x264'
 brew 'xvid'
 brew 'youtube-dl'
