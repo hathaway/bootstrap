@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
-# ~/.macos — https://mths.be/macos
+source ./lib_sh/echos.sh
+source ./lib_sh/requirers.sh
 
-# Close any open System Preferences panes, to prevent them from overriding
-# settings we’re about to change
-osascript -e 'tell application "System Preferences" to quit'
+bot "I'm going to configure macOS."
 
-# Ask for the administrator password upfront
-sudo -v
+running "Close any open System Preferences panes, to prevent them from overriding settings we're about to change"
+osascript -e 'tell application "System Preferences" to quit';ok
+
+running "Ask for the administrator password upfront"
+sudo -v;ok
 
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
@@ -21,6 +23,18 @@ bot "General UI/UX"
 #sudo scutil --set HostName "0x6D746873"
 #sudo scutil --set LocalHostName "0x6D746873"
 #sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "0x6D746873"
+
+running "Enable firewall"
+# Possible values:
+#   0 = off
+#   1 = on for specific sevices
+#   2 = on for essential services
+sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1;ok
+
+running "Enable firewall stealth mode (no response to ICMP / ping requests)"
+# Source: https://support.apple.com/kb/PH18642
+#sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -int 1
+sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -int 1;ok
 
 running "Set standby delay to 24 hours (default is 1 hour)"
 sudo pmset -a standbydelay 86400;ok
@@ -58,7 +72,7 @@ defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2;ok
 # defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
 
 # Disable smooth scrolling
-# (Uncomment if you’re on an older Mac that messes up the animation)
+# (Uncomment if you're on an older Mac that messes up the animation)
 #defaults write NSGlobalDomain NSScrollAnimationEnabled -bool false
 
 running "Increase window resize speed for Cocoa applications"
@@ -81,7 +95,7 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true;ok
 running "Disable the 'Are you sure you want to open this application?' dialog"
 defaults write com.apple.LaunchServices LSQuarantine -bool false;ok
 
-running "Remove duplicates in the 'Open With' menu (also see `lscleanup` alias)"
+running "Remove duplicates in the 'Open With' menu (also see 'lscleanup' alias)"
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user;ok
 
 running "Display ASCII control characters using caret notation in standard text views"
@@ -108,6 +122,9 @@ defaults write com.apple.helpviewer DevMode -bool true;ok
 running "Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window"
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName;ok
 
+running "Disable guest account login"
+sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false;ok
+
 running "Restart automatically if the computer freezes"
 sudo systemsetup -setrestartfreeze on;ok
 
@@ -117,10 +134,10 @@ sudo systemsetup -setcomputersleep Off > /dev/null;ok
 # # Disable Notification Center and remove the menu bar icon
 # launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
-running "Disable smart quotes as they’re annoying when typing code"
+running "Disable smart quotes as they're annoying when typing code"
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false;ok
 
-running "Disable smart dashes as they’re annoying when typing code"
+running "Disable smart dashes as they're annoying when typing code"
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false;ok
 
 # Set a custom wallpaper image. `DefaultDesktop.jpg` is already a symlink, and
@@ -140,20 +157,20 @@ running "Remove the sleep image file to save disk space"
 sudo rm /private/var/vm/sleepimage;ok
 running "Create a zero-byte file instead..."
 sudo touch /private/var/vm/sleepimage;ok
-running "...and make sure it can’t be rewritten"
+running "...and make sure it can't be rewritten"
 sudo chflags uchg /private/var/vm/sleepimage;ok
 
-running "Disable the sudden motion sensor as it’s not useful for SSDs"
+running "Disable the sudden motion sensor as it's not useful for SSDs"
 sudo pmset -a sms 0;ok
 
 ###############################################################################
 bot "Trackpad, mouse, keyboard, Bluetooth accessories, and input"
 ###############################################################################
 
-running "Trackpad: enable tap to click for this user and for the login screen"
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1;ok
+# running "Trackpad: enable tap to click for this user and for the login screen"
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+# defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+# defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1;ok
 
 # # Trackpad: map bottom right corner to right-click
 # defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
@@ -185,7 +202,7 @@ defaults write NSGlobalDomain KeyRepeat -int 1
 defaults write NSGlobalDomain InitialKeyRepeat -int 10;ok
 
 # # Set language and text formats
-# # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
+# # Note: if you're in the US, replace `EUR` with `USD`, `Centimeters` with
 # # `Inches`, `en_GB` with `en_US`, and `true` with `false`.
 # defaults write NSGlobalDomain AppleLanguages -array "en" "nl"
 # defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=EUR"
@@ -331,7 +348,7 @@ defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true;ok
 # # Show the /Volumes folder
 # sudo chflags nohidden /Volumes
 
-# # Remove Dropbox’s green checkmark icons in Finder
+# # Remove Dropbox's green checkmark icons in Finder
 # file=/Applications/Dropbox.app/Contents/Resources/emblem-dropbox-uptodate.icns
 # [ -e "${file}" ] && mv -f "${file}" "${file}.bak"
 
@@ -349,13 +366,13 @@ bot "Dock, Dashboard, and hot corners"
 running "Enable highlight hover effect for the grid view of a stack (Dock)"
 defaults write com.apple.dock mouse-over-hilite-stack -bool true;ok
 
-running "Set the icon size of Dock items to 36 pixels"
-defaults write com.apple.dock tilesize -int 36;ok
+running "Set the icon size of Dock items to 48 pixels"
+defaults write com.apple.dock tilesize -int 48;ok
 
 running "Change minimize/maximize window effect"
 defaults write com.apple.dock mineffect -string "scale";ok
 
-running "Minimize windows into their application’s icon"
+running "Minimize windows into their application's icon"
 defaults write com.apple.dock minimize-to-application -bool true;ok
 
 running "Enable spring loading for all Dock items"
@@ -365,30 +382,30 @@ running "Show indicator lights for open applications in the Dock"
 defaults write com.apple.dock show-process-indicators -bool true;ok
 
 running "Wipe all (default) app icons from the Dock"
-# This is only really useful when setting up a new Mac, or if you don’t use
+# This is only really useful when setting up a new Mac, or if you don't use
 # the Dock to launch apps.
 defaults write com.apple.dock persistent-apps -array;ok
 
 running "Show only open applications in the Dock"
 defaults write com.apple.dock static-only -bool true;ok
 
-running "Don’t animate opening applications from the Dock"
+running "Don't animate opening applications from the Dock"
 defaults write com.apple.dock launchanim -bool false
 
 running "Speed up Mission Control animations"
 defaults write com.apple.dock expose-animation-duration -float 0.1;ok
 
-running "Don’t group windows by application in Mission Control"
+running "Don't group windows by application in Mission Control"
 # (i.e. use the old Exposé behavior instead)
 defaults write com.apple.dock expose-group-by-app -bool false;ok
 
 running "Disable Dashboard"
 defaults write com.apple.dashboard mcx-disabled -bool true;ok
 
-running "Don’t show Dashboard as a Space"
+running "Don't show Dashboard as a Space"
 defaults write com.apple.dock dashboard-in-overlay -bool true;ok
 
-running "Don’t automatically rearrange Spaces based on most recent use"
+running "Don't automatically rearrange Spaces based on most recent use"
 defaults write com.apple.dock mru-spaces -bool false;ok
 
 running "Remove the auto-hiding Dock delay"
@@ -444,7 +461,7 @@ find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -dele
 bot "Safari & WebKit"
 ###############################################################################
 
-# # Privacy: don’t send search queries to Apple
+# # Privacy: don't send search queries to Apple
 # defaults write com.apple.Safari UniversalSearchEnabled -bool false
 # defaults write com.apple.Safari SuppressSearchSuggestions -bool true
 
@@ -455,31 +472,31 @@ defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebK
 running "Show the full URL in the address bar (note: this still hides the scheme)"
 defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true;ok
 
-running "Set Safari’s home page to `about:blank` for faster loading"
+running "Set Safari's home page to 'about:blank' for faster loading"
 defaults write com.apple.Safari HomePage -string "about:blank";ok
 
-running "Prevent Safari from opening ‘safe’ files automatically after downloading"
+running "Prevent Safari from opening 'safe' files automatically after downloading"
 defaults write com.apple.Safari AutoOpenSafeDownloads -bool false;ok
 
 running "Allow hitting the Backspace key to go to the previous page in history"
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true;ok
 
-running "Hide Safari’s bookmarks bar by default"
+running "Hide Safari's bookmarks bar by default"
 defaults write com.apple.Safari ShowFavoritesBar -bool false;ok
 
-running "Hide Safari’s sidebar in Top Sites"
+running "Hide Safari's sidebar in Top Sites"
 defaults write com.apple.Safari ShowSidebarInTopSites -bool false;ok
 
-running "Disable Safari’s thumbnail cache for History and Top Sites"
+running "Disable Safari's thumbnail cache for History and Top Sites"
 defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2;ok
 
-running "Enable Safari’s debug menu"
+running "Enable Safari's debug menu"
 defaults write com.apple.Safari IncludeInternalDebugMenu -bool true;ok
 
-running "Make Safari’s search banners default to Contains instead of Starts With"
+running "Make Safari's search banners default to Contains instead of Starts With"
 defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false;ok
 
-running "Remove useless icons from Safari’s bookmarks bar"
+running "Remove useless icons from Safari's bookmarks bar"
 defaults write com.apple.Safari ProxiesInBookmarksBar "()";ok
 
 running "Enable the Develop menu and the Web Inspector in Safari"
@@ -531,7 +548,7 @@ running "Disable send and reply animations in Mail.app"
 defaults write com.apple.mail DisableReplyAnimations -bool true
 defaults write com.apple.mail DisableSendAnimations -bool true;ok
 
-running "Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app"
+running "Copy email addresses as 'foo@example.com' instead of 'Foo Bar <foo@example.com>' in Mail.app"
 defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false;ok
 
 running "Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app"
@@ -606,7 +623,7 @@ running "Enable 'focus follows mouse' for Terminal.app and all X11 apps"
 # i.e. hover over a window and start `typing in it without clicking first
 defaults write com.apple.terminal FocusFollowsMouse -bool true;ok
 
-running "Don’t display the annoying prompt when quitting iTerm"
+running "Don't display the annoying prompt when quitting iTerm"
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false;ok
 
 running "hide tab title bars"
@@ -789,7 +806,7 @@ bot "Messages"
 running "Disable automatic emoji substitution (i.e. use plain text smileys)"
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false;ok
 
-running "Disable smart quotes as it’s annoying for messages that contain code"
+running "Disable smart quotes as it's annoying for messages that contain code"
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false;ok
 
 running "Disable continuous spell checking"
@@ -837,7 +854,7 @@ defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool t
 # # Start SizeUp at login
 # defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
 #
-# # Don’t show the preferences window on next start
+# # Don't show the preferences window on next start
 # defaults write com.irradiatedsoftware.SizeUp ShowPrefsOnNextStart -bool false
 
 ###############################################################################
@@ -855,7 +872,7 @@ defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool t
 # defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
 # defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Documents/Torrents"
 #
-# # Don’t prompt for confirmation before downloading
+# # Don't prompt for confirmation before downloading
 # defaults write org.m0k.transmission DownloadAsk -bool false
 # defaults write org.m0k.transmission MagnetOpenAsk -bool false
 #
@@ -877,25 +894,25 @@ defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool t
 bot "Twitter.app"
 ###############################################################################
 
-running "Disable smart quotes as it’s annoying for code tweets"
+running "Disable smart quotes as it's annoying for code tweets"
 defaults write com.twitter.twitter-mac AutomaticQuoteSubstitutionEnabled -bool false;ok
 
 running "Show the app window when clicking the menu bar icon"
 defaults write com.twitter.twitter-mac MenuItemBehavior -int 1;ok
 
-running "Enable the hidden ‘Develop’ menu"
+running "Enable the hidden 'Develop' menu"
 defaults write com.twitter.twitter-mac ShowDevelopMenu -bool true;ok
 
 running "Open links in the background"
 defaults write com.twitter.twitter-mac openLinksInBackground -bool true;ok
 
-running "Allow closing the ‘new tweet’ window by pressing `Esc`"
+running "Allow closing the 'new tweet' window by pressing 'Esc'"
 defaults write com.twitter.twitter-mac ESCClosesComposeWindow -bool true;ok
 
 running "Show full names rather than Twitter handles"
 defaults write com.twitter.twitter-mac ShowFullNames -bool true;ok
 
-running "Hide the app in the background if it’s not the front-most window"
+running "Hide the app in the background if it's not the front-most window"
 defaults write com.twitter.twitter-mac HideInBackground -bool true;ok
 
 ###############################################################################
@@ -934,14 +951,14 @@ defaults write com.tapbots.TweetbotMac OpenURLsDirectly -bool true;ok
 # defaults write com.divisiblebyzero.Spectacle UndoLastMove -data 62706c6973743030d40102030405061a1b582476657273696f6e58246f626a65637473592461726368697665725424746f7012000186a0a40708111255246e756c6cd4090a0b0c0d0e0f10596d6f64696669657273546e616d65576b6579436f64655624636c6173731109008002100680035c556e646f4c6173744d6f7665d2131415165a24636c6173736e616d655824636c61737365735d5a65726f4b6974486f744b6579a31718195d5a65726f4b6974486f744b6579585a4b486f744b6579584e534f626a6563745f100f4e534b657965644172636869766572d11c1d54726f6f74800108111a232d32373c424b555a62696c6e70727f848f98a6aab8c1cadcdfe40000000000000101000000000000001e000000000000000000000000000000e6
 
 ###############################################################################
-bot "Kill affected applications"
+# bot "Kill affected applications"
 ###############################################################################
 
-for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
-	"Dock" "Finder" "Google Chrome" "Google Chrome Canary" "Mail" "Messages" \
-	"Opera" "Photos" "Safari" "SizeUp" "Spectacle" "SystemUIServer" "Terminal" \
-	"Transmission" "Tweetbot" "Twitter" "iCal"; do
-	killall "${app}" &> /dev/null
-done
+# for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
+# 	"Dock" "Finder" "Google Chrome" "Google Chrome Canary" "Mail" "Messages" \
+# 	"Opera" "Photos" "Safari" "SizeUp" "Spectacle" "SystemUIServer" "Terminal" \
+# 	"Transmission" "Tweetbot" "Twitter" "iCal"; do
+# 	killall "${app}" &> /dev/null
+# done
 
 bot "Done. Note that some of these changes require a logout/restart to take effect."
