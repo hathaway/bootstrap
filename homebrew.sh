@@ -6,6 +6,7 @@ source ./lib_sh/requirers.sh
 #####
 # install homebrew (CLI Packages)
 #####
+bot "I'm going to install homebrew and all of your packages and apps in the Brewfile."
 
 running "checking homebrew install"
 brew_bin=$(which brew) 2>&1 > /dev/null
@@ -35,7 +36,14 @@ else
 fi
 
 # Brewfile
+running "bundling the Brewfile"
 brew bundle
+ok
 
 # Cleanup homebrew
+running "cleanup homebrew"
+running "cleanup homebrew"
 brew cleanup > /dev/null 2>&1
+ok
+
+bot "Woot! All done."
