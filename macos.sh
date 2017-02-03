@@ -14,6 +14,40 @@ sudo -v;ok
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
+running "Installing newer zsh"
+require_brew zsh
+CURRENTSHELL=$(dscl . -read /Users/$USER UserShell | awk '{print $2}')
+if [[ "$CURRENTSHELL" != "/usr/local/bin/zsh" ]]; then
+  bot "setting newer homebrew zsh (/usr/local/bin/zsh) as your shell (password required)"
+  # sudo bash -c 'echo "/usr/local/bin/zsh" >> /etc/shells'
+  # chsh -s /usr/local/bin/zsh
+  sudo dscl . -change /Users/$USER UserShell $SHELL /usr/local/bin/zsh > /dev/null 2>&1
+  ok
+fi
+
+running "Installing oh my zsh"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";ok
+
+if [[ ! -d "./oh-my-zsh/custom/themes/powerlevel9k" ]]; then
+	git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+fi
+
+
+bot "installing fonts"
+require_brew fontconfig
+brew tap caskroom/fonts
+require_cask font-fontawesome
+require_cask font-awesome-terminal-fonts
+require_cask font-hack
+require_cask font-inconsolata-dz-for-powerline
+require_cask font-inconsolata-g-for-powerline
+require_cask font-inconsolata-for-powerline
+require_cask font-roboto-mono
+require_cask font-roboto-mono-for-powerline
+require_cask font-source-code-pro
+ok
+
+
 ###############################################################################
 bot "General UI/UX"
 ###############################################################################
@@ -199,7 +233,7 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false;ok
 
 running "Set a blazingly fast keyboard repeat rate"
 defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 10;ok
+defaults write NSGlobalDomain InitialKeyRepeat -int 20;ok
 
 # # Set language and text formats
 # # Note: if you're in the US, replace `EUR` with `USD`, `Centimeters` with

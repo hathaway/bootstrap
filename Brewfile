@@ -71,6 +71,8 @@ brew 'wget', args: ['enable-iri']
 brew 'x264'
 brew 'xvid'
 brew 'youtube-dl'
+brew 'zsh'
+brew 'zsh-syntax-highlighting'
 
 # Applications
 cask '1password'
