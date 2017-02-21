@@ -40,6 +40,7 @@ brew 'mas'
 # Install some other useful utilities like `sponge`
 brew 'moreutils'
 brew 'mysql@5.5'
+brew 'mysql'
 brew 'nmap'
 brew 'node'
 brew 'openssl'
@@ -99,6 +100,7 @@ cask 'skype'
 cask 'slack'
 cask 'spectacle'
 cask 'the-unarchiver'
+cask 'things'
 cask 'vagrant'
 cask 'vagrant-manager'
 cask 'virtualbox'
@@ -117,3 +119,4 @@ mas 'Deliveries', id: 924726344
 mas 'Screens', id: 446107677
 mas 'Pages', id: 409201541
 mas 'MindNode 2 – Delightful Mind Mapping', id: 992076693
+mas 'Tweetbot for Twitter', id: 557168941

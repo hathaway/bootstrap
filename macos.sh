@@ -45,6 +45,7 @@ require_cask font-inconsolata-for-powerline
 require_cask font-roboto-mono
 require_cask font-roboto-mono-for-powerline
 require_cask font-source-code-pro
+require_cask font-menlo-for-powerline
 ok
 
 
@@ -53,10 +54,10 @@ bot "General UI/UX"
 ###############################################################################
 
 # Set computer name (as done via System Preferences → Sharing)
-#sudo scutil --set ComputerName "0x6D746873"
-#sudo scutil --set HostName "0x6D746873"
-#sudo scutil --set LocalHostName "0x6D746873"
-#sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "0x6D746873"
+sudo scutil --set ComputerName "hathaway"
+sudo scutil --set HostName "hathaway"
+sudo scutil --set LocalHostName "hathaway"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "hathaway"
 
 running "Enable firewall"
 # Possible values:
