@@ -55,6 +55,7 @@ brew 'rename'
 brew 'ruby-build'
 # better/more recent version of screen
 brew 'homebrew/dupes/screen'
+brew 'screens-connect'
 brew 'speedtest_cli'
 brew 'sqlite'
 brew 'ssh-copy-id'
