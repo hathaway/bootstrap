@@ -54,10 +54,10 @@ bot "General UI/UX"
 ###############################################################################
 
 # Set computer name (as done via System Preferences → Sharing)
-sudo scutil --set ComputerName "hathaway"
-sudo scutil --set HostName "hathaway"
-sudo scutil --set LocalHostName "hathaway"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "hathaway"
+sudo scutil --set ComputerName "brh"
+sudo scutil --set HostName "brh"
+sudo scutil --set LocalHostName "brh"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "brh"
 
 running "Enable firewall"
 # Possible values:
