@@ -12,10 +12,10 @@ running "checking homebrew install"
 brew_bin=$(which brew) 2>&1 > /dev/null
 if [[ $? != 0 ]]; then
   action "installing homebrew"
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    if [[ $? != 0 ]]; then
-      error "unable to install homebrew, script $0 abort!"
-      exit 2
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if [[ $? != 0 ]]; then
+    error "unable to install homebrew, script $0 abort!"
+    exit 2
   fi
 else
   ok
@@ -41,7 +41,6 @@ brew bundle
 ok
 
 # Cleanup homebrew
-running "cleanup homebrew"
 running "cleanup homebrew"
 brew cleanup > /dev/null 2>&1
 ok
