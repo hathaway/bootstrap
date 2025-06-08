@@ -15,3 +15,9 @@ cd ~/.dotfiles;
 # run this using terminal (not iTerm, lest iterm settings get discarded on exit)
 ./bootstrap.sh
 ```
+
+
+## Links
+
+Homebrew: Bundle, brew bundle and Brewfile
+https://docs.brew.sh/Brew-Bundle-and-Brewfile
