@@ -78,14 +78,15 @@ brew 'zsh-syntax-highlighting'
 
 # Applications
 cask '1password'
-cask 'alfred'
-cask 'anvil'
-cask 'atom'
-cask 'chefdk'
+# cask 'alfred'
+# cask 'anvil'
+# cask 'atom'
+# cask 'chefdk'
 cask 'cyberduck'
-cask 'dropbox'
+# cask 'dropbox'
+# cask "font-hack-nerd-font"
 cask 'firefox'
-cask 'flux'
+# cask 'flux'
 cask 'github-desktop'
 cask 'google-chrome'
 # cask 'gpgtools'
@@ -93,32 +94,21 @@ cask 'istat-menus'
 cask 'iterm2'
 cask 'little-snitch'
 cask 'micro-snitch'
-cask 'owncloud'
+# cask 'owncloud'
 cask 'postman'
 cask 'sequel-pro'
 # cask 'sizeup'
 # cask 'sketchup'
-cask 'skype'
+# cask 'skype'
 cask 'slack'
-cask 'spectacle'
-cask 'the-unarchiver'
+# cask 'spectacle'
+# cask 'the-unarchiver'
 cask 'things'
-cask 'vagrant'
-cask 'vagrant-manager'
-cask 'virtualbox'
+# cask 'vagrant'
+# cask 'vagrant-manager'
+# cask 'virtualbox'
 cask 'visual-studio-code'
 cask 'vlc'
 
 # Mac App Store applications
 mas 'Xcode', id: 497799835
-mas 'Rested', id: 421879749
-mas 'Keynote', id: 409183694
-mas 'Microsoft Remote Desktop', id: 715768417
-mas 'Day One', id: 1055511498
-mas 'Airmail 3', id: 918858936
-mas 'MSG Viewer for Outlook', id: 973213640
-mas 'Deliveries', id: 924726344
-mas 'Screens', id: 446107677
-mas 'Pages', id: 409201541
-mas 'MindNode 2 – Delightful Mind Mapping', id: 992076693
-mas 'Tweetbot for Twitter', id: 557168941
