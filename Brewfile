@@ -25,71 +25,118 @@ brew 'chezmoi'
 brew 'coreutils'
 # cmake is required to compile vim bundle YouCompleteMe
 brew 'cmake'
+# Power of curl, ease of use of httpie
+brew 'curlie'
 brew 'dark-mode'
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
 brew 'findutils'
+# User-friendly command-line shell for UNIX-like operating systems
+# brew 'fish'
 brew 'ffmpeg'
 brew 'gawk'
+# GNU compiler collection
+brew 'gcc'
+# GitHub command-line tool
+brew 'gh'
+# Core application library for C
+brew 'glib'
 brew 'gdbm'
+# GNU Transport Layer Security (TLS) Library
+brew 'gnutls'
+# GNU Pretty Good Privacy (PGP) package
 brew 'gnupg'
 # Install GNU `sed`, overwriting the built-in `sed`
 # so we can do "sed -i 's/foo/bar/' file" instead of "sed -i '' 's/foo/bar/' file"
-brew 'gnu-sed', args: ['with-default-names']
+# brew 'gnu-sed', args: ['with-default-names']
 # better, more recent grep
-brew 'homebrew/dupes/grep'
-# https://github.com/jkbrzt/httpie
+# brew 'homebrew/dupes/grep'
+# User-friendly cURL replacement (command-line HTTP client)
 brew 'httpie'
+# Tools and libraries to manipulate images in many formats
 brew 'imagemagick'
 brew 'imagesnap'
-# jq is a sort of JSON grep
+# Migrate or backup IMAP mail accounts
+brew 'imapsync'
+# Lightweight and flexible command-line JSON processor
 brew 'jq'
 brew 'lame'
-brew 'mackup'
+# Provides library functionality for FIDO U2F & FIDO 2.0, including USB
+brew 'libfido2'
+# International domain name library
+brew 'libidn'
+# Postgres C API library
+# brew 'libpq', link: true
 # Mac App Store CLI: https://github.com/mas-cli/mas
 brew 'mas'
 # Install some other useful utilities like `sponge`
 brew 'moreutils'
-# brew 'mysql@5.5'
+# Open source relational database management system
 # brew 'mysql'
 brew 'nmap'
+# Platform built on V8 to build network applications
 brew 'node'
+# Package for scientific computing with Python
+brew 'numpy'
 # Cryptography and SSL/TLS Toolkit
-brew "openssl@3"
-brew 'pkg-config'
-brew 'pv'
-brew 'python'
-brew 'readline'
-brew 'rbenv'
-brew 'reattach-to-user-namespace'
-brew 'redis', restart_service: true
+brew 'openssl@3'
+# brew 'pkg-config'
+# brew 'pv'
+# Python version management
+brew 'pyenv'
+# Interpreted, interactive, object-oriented programming language
+brew 'python@3.10'
+# Interpreted, interactive, object-oriented programming language
+brew 'python@3.11'
+# Interpreted, interactive, object-oriented programming language
+brew 'python@3.9'
+# Tensors and dynamic neural networks
+brew 'pytorch'
+# brew 'rbenv'
+# brew 'readline'
+# brew 'reattach-to-user-namespace'
+# brew 'redis', restart_service: true
 brew 'rename'
+# Install various Ruby versions and implementations
 brew 'ruby-build'
+# Safe, concurrent, practical language
+brew 'rust'
 # better/more recent version of screen
-brew 'homebrew/dupes/screen'
-brew 'screens-connect'
-brew 'speedtest_cli'
-brew 'sqlite'
-brew 'ssh-copy-id'
+# brew 'homebrew/dupes/screen'
+# brew 'screens-connect'
+# Database of common MIME types
+brew 'shared-mime-info'
+# brew 'speedtest_cli'
+# brew 'sqlite'
+# brew 'ssh-copy-id'
+# SMTP command-line test tool
 brew 'swaks'
+# Tool Command Language
+brew 'tcl-tk'
+# User interface to the TELNET protocol
+brew 'telnet'
 brew 'testssl'
-brew 'tmux'
+# brew 'tmux'
 brew 'tree'
 brew 'ttyrec'
+# Validating, recursive, caching DNS resolver
+brew 'unbound'
 # better, more recent vim
-brew 'vim', args: ['with-override-system-vi']
+# brew 'vim', args: ['with-override-system-vi']
 brew 'watch'
-brew 'webkit2png'
 # Install wget with IRI support
-brew 'wget', args: ['enable-iri']
+# brew 'wget', args: ['enable-iri']
 brew 'x264'
 brew 'xvid'
 # General-purpose data compression with high compression ratio
 brew 'xz'
 brew 'youtube-dl'
 brew 'zsh'
+# Real-time type-ahead completion for Zsh
+brew 'zsh-autocomplete'
 brew 'zsh-syntax-highlighting'
 # Zstandard is a real-time compression algorithm
 brew 'zstd'
+
 
 # Applications
 cask '1password'
@@ -107,7 +154,7 @@ cask 'cyberduck'
 cask 'docker'
 # cask 'dropbox'
 cask 'fantastical'
-# cask "font-hack-nerd-font"
+cask 'font-hack-nerd-font'
 cask 'firefox'
 # cask 'flux'
 cask 'github'
@@ -122,6 +169,7 @@ cask 'micro-snitch'
 cask 'microsoft-office'
 # Reverse proxy, secure introspectable tunnels to localhost
 cask 'ngrok'
+cask 'obsidian'
 # cask 'owncloud'
 cask 'pastebot'
 cask 'postman'
@@ -146,6 +194,7 @@ cask 'vlc'
 cask 'zed'
 cask 'zoom'
 
+
 # Mac App Store applications
 mas 'Hush Nag Blocker', id: 1544743900
 mas 'Sequel Ace', id: 1518036000
@@ -154,3 +203,30 @@ mas 'Tot', id: 1491071483
 mas 'Vinegar', id: 1591303229
 mas 'Xcode', id: 497799835
 # mas 'WhatsApp Messenger', id: 310633997
+
+
+# Visual Studio Code Extensions
+vscode "bradlc.vscode-tailwindcss"
+vscode "eamodio.gitlens"
+vscode "github.codespaces"
+vscode "github.copilot"
+vscode "github.copilot-chat"
+vscode "github.remotehub"
+vscode "github.vscode-github-actions"
+vscode "github.vscode-pull-request-github"
+vscode "leighlondon.eml"
+vscode "mikestead.dotenv"
+vscode "ms-azuretools.vscode-docker"
+vscode "ms-python.debugpy"
+vscode "ms-python.isort"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-vscode-remote.remote-containers"
+vscode "ms-vscode.atom-keybindings"
+vscode "ms-vscode.azure-repos"
+vscode "ms-vscode.remote-explorer"
+vscode "ms-vscode.remote-repositories"
+vscode "ms-vscode.remote-server"
+vscode "ms-vscode.sublime-keybindings"
+vscode "ms-vsliveshare.vsliveshare"
+vscode "shopify.ruby-lsp"
