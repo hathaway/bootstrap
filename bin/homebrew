@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+if ! declare -F echos >/dev/null; then
+    source lib/echos.sh
+fi
+
+if ! declare -F requirers >/dev/null; then
+    source lib/requirers.sh
+fi
+
 #####
 # install homebrew (CLI Packages)
 #####
@@ -33,13 +41,19 @@ else
 fi
 
 # Brewfile
-running "bundling the Brewfile"
-brew bundle --file=../config/Brewfile
-ok
+read -r -p "run brew bundle? [y|N] " response
+if [[ $response =~ ^(y|yes|Y) ]];then
+  running "bundling the Brewfile"
+  brew bundle --file=./config/Brewfile
+  ok
+fi
 
 # Cleanup homebrew
-running "cleanup homebrew"
-brew cleanup > /dev/null 2>&1
-ok
+read -r -p "run brew cleanup? [y|N] " response
+if [[ $response =~ ^(y|yes|Y) ]];then
+  running "cleanup homebrew"
+  brew cleanup > /dev/null 2>&1
+  ok
+fi
 
 bot "Woot! All done."

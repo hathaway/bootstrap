@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source ./lib_sh/echos.sh
-source ./lib_sh/requirers.sh
+source lib/echos.sh
+source lib/requirers.sh
 
 source bin/homebrew
 source bin/macos

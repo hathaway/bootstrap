@@ -15,6 +15,10 @@ COL_BLUE=$ESC_SEQ"34;01m"
 COL_MAGENTA=$ESC_SEQ"35;01m"
 COL_CYAN=$ESC_SEQ"36;01m"
 
+function echos() {
+  echo -e "echos available"
+}
+
 function ok() {
     echo -e "$COL_GREEN[ok]$COL_RESET "$1
 }

@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+if ! declare -F echos >/dev/null; then
+    source lib/echos.sh
+fi
+
+if ! declare -F requirers >/dev/null; then
+    source lib/requirers.sh
+fi
+
 bot "I'm going to configure macOS."
 
 running "Close any open System Preferences panes, to prevent them from overriding settings we're about to change"

@@ -6,6 +6,13 @@
 ###
 
 # source ./echos.sh
+if ! declare -F echos >/dev/null; then
+    source echos.sh
+fi
+
+function requirers() {
+  echo -e "requirers available"
+}
 
 function require_cask() {
     running "brew cask $1"
