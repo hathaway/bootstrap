@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-source ./lib_sh/echos.sh
-source ./lib_sh/requirers.sh
-
 bot "I'm going to configure macOS."
 
 running "Close any open System Preferences panes, to prevent them from overriding settings we're about to change"

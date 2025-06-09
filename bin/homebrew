@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-source ./lib/echos.sh
-source ./lib/requirers.sh
-
 #####
 # install homebrew (CLI Packages)
 #####
