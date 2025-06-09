@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source ./lib_sh/echos.sh
-source ./lib_sh/requirers.sh
+source ./lib/echos.sh
+source ./lib/requirers.sh
 
 #####
 # install homebrew (CLI Packages)
@@ -37,12 +37,12 @@ fi
 
 # Brewfile
 running "bundling the Brewfile"
-# brew bundle
+brew bundle --file=../config/Brewfile
 ok
 
 # Cleanup homebrew
 running "cleanup homebrew"
-# brew cleanup > /dev/null 2>&1
+brew cleanup > /dev/null 2>&1
 ok
 
 bot "Woot! All done."

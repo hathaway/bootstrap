@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+source bin/homebrew
+source bin/macos
