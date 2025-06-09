@@ -37,12 +37,12 @@ fi
 
 # Brewfile
 running "bundling the Brewfile"
-brew bundle
+# brew bundle
 ok
 
 # Cleanup homebrew
 running "cleanup homebrew"
-brew cleanup > /dev/null 2>&1
+# brew cleanup > /dev/null 2>&1
 ok
 
 bot "Woot! All done."
