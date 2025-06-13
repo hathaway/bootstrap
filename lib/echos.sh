@@ -16,7 +16,7 @@ COL_MAGENTA=$ESC_SEQ"35;01m"
 COL_CYAN=$ESC_SEQ"36;01m"
 
 function echos() {
-  echo -e "echos available"
+    echo -e "echos available"
 }
 
 function ok() {

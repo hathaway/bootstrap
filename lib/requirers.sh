@@ -11,7 +11,7 @@ if ! declare -F echos >/dev/null; then
 fi
 
 function requirers() {
-  echo -e "requirers available"
+    echo -e "requirers available"
 }
 
 function require_cask() {

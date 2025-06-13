@@ -4,4 +4,4 @@ source lib/echos.sh
 source lib/requirers.sh
 
 source bin/homebrew
-source bin/macos
+# source bin/macos
