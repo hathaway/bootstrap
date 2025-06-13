@@ -17,6 +17,17 @@ bold "🚀 Starting full system setup..."
 
 require_sudo_session
 
+# Xcode Command Line Tools
+say "Checking for Xcode Command Line Tools..."
+if ! xcode-select --print-path >/dev/null 2>&1; then
+  say "📦 Installing Xcode Command Line Tools..."
+  xcode-select --install
+  say "\033[0;32m✅ Xcode Command Line Tools installation initiated. Please complete the installation if prompted.\033[0m"
+  exit 0
+else
+  say "\033[0;32m✅ Xcode Command Line Tools are already installed.\033[0m"
+fi
+
 # Run Oh My Zsh setup
 bold "🔧 Running Oh My Zsh setup..."
 say "📥 Downloading Oh My Zsh script..."
