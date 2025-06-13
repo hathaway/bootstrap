@@ -19,6 +19,22 @@ if ! command -v zsh >/dev/null 2>&1; then
   brew install zsh
 fi
 
+# Ensure Git is installed
+echo "🔧 Checking for Git installation..."
+if ! command -v git >/dev/null 2>&1; then
+  echo -e "${RED}Git is not installed. Installing via Xcode Command Line Tools...${NC}"
+  if ! xcode-select --print-path >/dev/null 2>&1; then
+    echo "📦 Installing Xcode Command Line Tools..."
+    xcode-select --install
+    echo -e "${GREEN}✅ Xcode Command Line Tools installation initiated. Please complete the installation if prompted.${NC}"
+    exit 0
+  else
+    echo -e "${GREEN}✅ Xcode Command Line Tools are already installed.${NC}"
+  fi
+else
+  echo "✅ Git is already installed."
+fi
+
 # Install Oh My Zsh
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   echo "📦 Installing Oh My Zsh..."
