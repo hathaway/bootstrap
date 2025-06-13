@@ -122,7 +122,6 @@ brew 'x264'
 brew 'xvid'
 # General-purpose data compression with high compression ratio
 brew 'xz'
-brew 'youtube-dl'
 brew 'zsh'
 # Real-time type-ahead completion for Zsh
 brew 'zsh-autocomplete'
