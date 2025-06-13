@@ -25,6 +25,7 @@ if ! xcode-select --print-path >/dev/null 2>&1; then
   say "\033[0;32m✅ Xcode Command Line Tools installation initiated. Please complete the installation if prompted.\033[0m"
   exit 0
 else
+  sudo xcodebuild -license accept
   say "\033[0;32m✅ Xcode Command Line Tools are already installed.\033[0m"
 fi
 
@@ -46,7 +47,7 @@ chmod +x /tmp/homebrew.sh
 bold "⚙️ Running macOS configuration..."
 say "📥 Downloading macOS configuration script..."
 curl -fsSL -o /tmp/macos.sh https://raw.githubusercontent.com/hathaway/dotfiles/HEAD/bin/macos.sh
-chmod +x /tmp/macos.sh  
+chmod +x /tmp/macos.sh
 /tmp/macos.sh
 
 bold "✅ Full system setup complete!"
