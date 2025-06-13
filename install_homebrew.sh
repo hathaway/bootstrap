@@ -10,6 +10,14 @@ prompt() {
   [[ "$response" =~ ^[Yy](es)?$ ]]
 }
 
+# Ensure sudo privileges are acquired and kept alive during the script
+require_sudo_session() {
+  echo "🔐 Requesting sudo access..."
+  sudo -v
+  # Keep the session alive in the background
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+}
+
 fetch_remote_brewfiles() {
   local repo="$1"
   local branch="$2"
@@ -56,6 +64,8 @@ fetch_remote_brewfiles() {
 }
 
 bold "🍺 Homebrew Setup Starting..."
+
+require_sudo_session
 
 # Install Homebrew if needed
 if ! command -v brew >/dev/null 2>&1; then
@@ -131,3 +141,6 @@ else
 fi
 
 bold "✅ Homebrew setup complete!"
+
+# Ensure sudo privileges are released after setup
+sudo -k
