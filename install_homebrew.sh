@@ -58,16 +58,17 @@ fetch_remote_brewfiles() {
 bold "🍺 Homebrew Setup Starting..."
 
 # Install Homebrew if needed
-# Install Homebrew if needed
 if ! command -v brew >/dev/null 2>&1; then
   say "Homebrew not found. Installing..."
   say "You may be prompted for your password to install Homebrew (via sudo)..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   if [[ -x /opt/homebrew/bin/brew ]]; then
+    export PATH="/opt/homebrew/bin:$PATH"
     eval "$(/opt/homebrew/bin/brew shellenv)"
     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
   elif [[ -x /usr/local/bin/brew ]]; then
+    export PATH="/usr/local/bin:$PATH"
     eval "$(/usr/local/bin/brew shellenv)"
     echo 'eval "$(/usr/local/bin/brew shellenv)"' >> ~/.zprofile
   else
@@ -110,7 +111,7 @@ if prompt "Run 'brew bundle' to install from a Brewfile?"; then
     read -r -p "🔗 Enter GitHub repo (e.g. user/repo or user/repo@branch): " repo_input
     repo="${repo_input%@*}"
     branch="${repo_input#*@}"
-    [[ "$repo_input" == "$branch" ]] && branch="main"
+    [[ "$repo_input" == "$branch" ]] && branch="HEAD"
 
     fetch_remote_brewfiles "$repo" "$branch" || say "⚠️ Skipped remote bundle."
   else
