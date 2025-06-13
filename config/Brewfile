@@ -1,6 +1,7 @@
 tap 'ngrok/ngrok'
 
 # Packages
+brew '1password-cli'
 brew 'ack'
 # Extendable version manager with support for Ruby, Node.js, Erlang & more
 brew 'asdf'
