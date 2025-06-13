@@ -53,7 +53,7 @@ fetch_remote_brewfiles() {
   say "📦 Downloading $selected..."
   local tmpfile
   tmpfile=$(mktemp)
-  if curl -fsSL "$base_url/$selected" -o "$tmpfile"; then
+  if curl -fsSL "$base_url/config/$selected" -o "$tmpfile"; then
     brew bundle --file="$tmpfile"
     say "✅ Brew bundle from $selected complete."
     rm "$tmpfile"
