@@ -30,28 +30,28 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 #   ok
 # fi
 
-running "Installing oh my zsh"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";ok
+# running "Installing oh my zsh"
+# sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";ok
 
-if [[ ! -d "./oh-my-zsh/custom/themes/powerlevel9k" ]]; then
-	git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
-fi
+# if [[ ! -d "./oh-my-zsh/custom/themes/powerlevel9k" ]]; then
+# 	git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+# fi
 
 
-bot "installing fonts"
-require_brew fontconfig
-brew tap caskroom/fonts
-require_cask font-fontawesome
-require_cask font-awesome-terminal-fonts
-require_cask font-hack
-require_cask font-inconsolata-dz-for-powerline
-require_cask font-inconsolata-g-for-powerline
-require_cask font-inconsolata-for-powerline
-require_cask font-roboto-mono
-require_cask font-roboto-mono-for-powerline
-require_cask font-source-code-pro
-require_cask font-menlo-for-powerline
-ok
+# bot "installing fonts"
+# require_brew fontconfig
+# brew tap caskroom/fonts
+# require_cask font-fontawesome
+# require_cask font-awesome-terminal-fonts
+# require_cask font-hack
+# require_cask font-inconsolata-dz-for-powerline
+# require_cask font-inconsolata-g-for-powerline
+# require_cask font-inconsolata-for-powerline
+# require_cask font-roboto-mono
+# require_cask font-roboto-mono-for-powerline
+# require_cask font-source-code-pro
+# require_cask font-menlo-for-powerline
+# ok
 
 
 ###############################################################################
@@ -126,14 +126,14 @@ bot "General UI/UX"
 # running "Save to disk (not to iCloud) by default"
 # defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false;ok
 
-running "Automatically quit printer app once the print jobs complete"
-defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true;ok
+# running "Automatically quit printer app once the print jobs complete"
+# defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true;ok
 
 # running "Disable the 'Are you sure you want to open this application?' dialog"
 # defaults write com.apple.LaunchServices LSQuarantine -bool false;ok
 
-running "Remove duplicates in the 'Open With' menu (also see 'lscleanup' alias)"
-/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user;ok
+# running "Remove duplicates in the 'Open With' menu (also see 'lscleanup' alias)"
+# /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user;ok
 
 # running "Display ASCII control characters using caret notation in standard text views"
 # # Try e.g. `cd /tmp; unidecode "\x{0000}" > cc.txt; open -e cc.txt`

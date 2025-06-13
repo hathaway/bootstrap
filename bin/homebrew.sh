@@ -28,7 +28,7 @@ fetch_remote_brewfiles() {
 
   declare -a available=()
   for file in "${profiles[@]}"; do
-    if curl --head --silent --fail "$base_url/$file" > /dev/null; then
+    if curl --head --silent --fail "$base_url/config/$file" > /dev/null; then
       available+=("$file")
     fi
   done

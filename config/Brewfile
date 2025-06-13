@@ -21,6 +21,7 @@ brew 'cmake'
 # Power of curl, ease of use of httpie
 brew 'curlie'
 brew 'dark-mode'
+brew 'dockutil'
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
 brew 'findutils'
 # User-friendly command-line shell for UNIX-like operating systems
