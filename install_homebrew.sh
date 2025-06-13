@@ -10,69 +10,108 @@ prompt() {
   [[ "$response" =~ ^[Yy](es)?$ ]]
 }
 
+fetch_remote_brewfiles() {
+  local repo="$1"
+  local branch="$2"
+  local base_url="https://raw.githubusercontent.com/$repo/$branch"
+  local profiles=("Brewfile" "Brewfile.work" "Brewfile.personal" "Brewfile.dev" "Brewfile.full")
+
+  say "🔍 Checking for available Brewfiles in $repo@$branch..."
+
+  declare -a available=()
+  for file in "${profiles[@]}"; do
+    if curl --head --silent --fail "$base_url/$file" > /dev/null; then
+      available+=("$file")
+    fi
+  done
+
+  if [[ ${#available[@]} -eq 0 ]]; then
+    say "⚠️ No Brewfiles found in repo."
+    return 1
+  fi
+
+  echo "📄 Available Brewfiles:"
+  for i in "${!available[@]}"; do
+    echo "$((i+1))) ${available[$i]}"
+  done
+
+  read -r -p "Enter number to select Brewfile: " index
+  local selected="${available[$((index-1))]}"
+  if [[ -z "$selected" ]]; then
+    say "Invalid selection. Skipping."
+    return 1
+  fi
+
+  say "📦 Downloading $selected..."
+  local tmpfile
+  tmpfile=$(mktemp)
+  if curl -fsSL "$base_url/$selected" -o "$tmpfile"; then
+    brew bundle --file="$tmpfile"
+    say "✅ Brew bundle from $selected complete."
+    rm "$tmpfile"
+  else
+    say "❌ Failed to download $selected"
+    return 1
+  fi
+}
+
 bold "🍺 Homebrew Setup Starting..."
 
-# Check/install Homebrew
+# Install Homebrew if needed
 if ! command -v brew >/dev/null 2>&1; then
-  say "Homebrew not found. Installing..."
+  say "Installing Homebrew..."
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null)" || \
   eval "$(/usr/local/bin/brew shellenv 2>/dev/null)" || true
 else
-  say "Homebrew already installed."
+  say "Homebrew is already installed."
 fi
 
 say "Updating Homebrew..."
 brew update
 
-# Upgrade installed packages
+# Upgrade prompt
 if prompt "Run 'brew upgrade' to update installed packages?"; then
   say "Upgrading packages..."
   brew upgrade
-  say "Packages upgraded."
 else
   say "Skipped upgrading."
 fi
 
-# Run Brewfile
+# Bundle prompt
 if prompt "Run 'brew bundle' to install from a Brewfile?"; then
-  echo "🔧 Choose Brewfile source:"
+  echo "📦 Choose Brewfile source:"
   echo "1) Use local ~/Brewfile"
-  echo "2) Download from GitHub URL"
-  read -r -p "Enter 1 or 2: " choice
+  echo "2) Download from GitHub repo"
+  read -r -p "Enter 1 or 2: " bundle_choice
 
-  if [[ "$choice" == "1" ]]; then
-    BREWFILE="$HOME/Brewfile"
-    if [[ -f "$BREWFILE" ]]; then
-      say "Using local Brewfile at $BREWFILE..."
-      brew bundle --file="$BREWFILE"
-      say "Brew bundle complete."
+  if [[ "$bundle_choice" == "1" ]]; then
+    local_brewfile="$HOME/Brewfile"
+    if [[ -f "$local_brewfile" ]]; then
+      say "Using local Brewfile at $local_brewfile..."
+      brew bundle --file="$local_brewfile"
     else
-      say "No Brewfile found at $BREWFILE."
+      say "❌ No Brewfile found at $local_brewfile"
     fi
-  elif [[ "$choice" == "2" ]]; then
-    read -r -p "🌐 Enter raw GitHub URL to the Brewfile (e.g. https://raw.githubusercontent.com/user/repo/branch/Brewfile): " url
-    TEMP_BREWFILE="$(mktemp)"
-    if curl -fsSL "$url" -o "$TEMP_BREWFILE"; then
-      say "Downloaded Brewfile. Running bundle..."
-      brew bundle --file="$TEMP_BREWFILE"
-      say "Brew bundle complete."
-      rm "$TEMP_BREWFILE"
-    else
-      say "Failed to download Brewfile from URL."
-    fi
+
+  elif [[ "$bundle_choice" == "2" ]]; then
+    read -r -p "🔗 Enter GitHub repo (e.g. user/repo or user/repo@branch): " repo_input
+    repo="${repo_input%@*}"
+    branch="${repo_input#*@}"
+    [[ "$repo_input" == "$branch" ]] && branch="main"
+
+    fetch_remote_brewfiles "$repo" "$branch" || say "⚠️ Skipped remote bundle."
   else
-    say "Invalid choice. Skipping brew bundle."
+    say "Invalid option. Skipping brew bundle."
   fi
 else
   say "Skipped brew bundle."
 fi
 
-# Cleanup
+# Cleanup prompt
 if prompt "Run 'brew cleanup' to remove unused files?"; then
   say "Cleaning up..."
   brew cleanup
-  say "Cleanup done."
 else
   say "Skipped cleanup."
 fi
