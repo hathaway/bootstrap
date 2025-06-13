@@ -19,19 +19,19 @@ sudo -v;ok
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-running "Installing newer zsh"
-require_brew zsh
-CURRENTSHELL=$(dscl . -read /Users/$USER UserShell | awk '{print $2}')
-if [[ "$CURRENTSHELL" != "/usr/local/bin/zsh" ]]; then
-  bot "setting newer homebrew zsh (/usr/local/bin/zsh) as your shell (password required)"
-  # sudo bash -c 'echo "/usr/local/bin/zsh" >> /etc/shells'
-  # chsh -s /usr/local/bin/zsh
-  sudo dscl . -change /Users/$USER UserShell $SHELL /usr/local/bin/zsh > /dev/null 2>&1
-  ok
-fi
+# running "Installing newer zsh"
+# require_brew zsh
+# CURRENTSHELL=$(dscl . -read /Users/$USER UserShell | awk '{print $2}')
+# if [[ "$CURRENTSHELL" != "/opt/homebrew/bin/zsh" ]]; then
+#   bot "setting newer homebrew zsh (/opt/homebrew/bin/zsh) as your shell (password required)"
+#   # sudo bash -c 'echo "/opt/homebrew/bin/zsh" >> /etc/shells'
+#   # chsh -s /opt/homebrew/bin/zsh
+#   sudo dscl . -change /Users/$USER UserShell $SHELL /opt/homebrew/bin/zsh > /dev/null 2>&1
+#   ok
+# fi
 
 running "Installing oh my zsh"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";ok
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";ok
 
 if [[ ! -d "./oh-my-zsh/custom/themes/powerlevel9k" ]]; then
 	git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
@@ -59,50 +59,47 @@ bot "General UI/UX"
 ###############################################################################
 
 # Set computer name (as done via System Preferences → Sharing)
-sudo scutil --set ComputerName "brh"
-sudo scutil --set HostName "brh"
-sudo scutil --set LocalHostName "brh"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "brh"
+# sudo scutil --set ComputerName "brh"
+# sudo scutil --set HostName "brh"
+# sudo scutil --set LocalHostName "brh"
+# sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "brh"
 
-running "Enable firewall"
+# running "Enable firewall"
 # Possible values:
 #   0 = off
 #   1 = on for specific sevices
 #   2 = on for essential services
-sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1;ok
+# sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1;ok
 
-running "Enable firewall stealth mode (no response to ICMP / ping requests)"
+# running "Enable firewall stealth mode (no response to ICMP / ping requests)"
 # Source: https://support.apple.com/kb/PH18642
 #sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -int 1
-sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -int 1;ok
+# sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -int 1;ok
 
-running "Set standby delay to 24 hours (default is 1 hour)"
-sudo pmset -a standbydelay 86400;ok
+# running "Set standby delay to 24 hours (default is 1 hour)"
+# sudo pmset -a standbydelay 86400;ok
 
 # # Disable the sound effects on boot
 # sudo nvram SystemAudioVolume=" "
 
-# # Disable transparency in the menu bar and elsewhere on Yosemite
-# defaults write com.apple.universalaccess reduceTransparency -bool true
+# running "Menu bar: hide the Time Machine, Volume, Battery, Clock, and User icons (using iStat Menus instead)"
+# for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
+# 	defaults write "${domain}" dontAutoLoad -array \
+# 		"/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
+# 		"/System/Library/CoreServices/Menu Extras/Volume.menu" \
+# 		"/System/Library/CoreServices/Menu Extras/User.menu" \
+# 		"/System/Library/CoreServices/Menu Extras/Battery.menu" \
+#     "/System/Library/CoreServices/Menu Extras/Clock.menu"
+# done
+# defaults write com.apple.systemuiserver menuExtras -array \
+# 	"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+# 	"/System/Library/CoreServices/Menu Extras/AirPort.menu";ok
 
-running "Menu bar: hide the Time Machine, Volume, Battery, Clock, and User icons (using iStat Menus instead)"
-for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
-	defaults write "${domain}" dontAutoLoad -array \
-		"/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-		"/System/Library/CoreServices/Menu Extras/Volume.menu" \
-		"/System/Library/CoreServices/Menu Extras/User.menu" \
-		"/System/Library/CoreServices/Menu Extras/Battery.menu" \
-    "/System/Library/CoreServices/Menu Extras/Clock.menu"
-done
-defaults write com.apple.systemuiserver menuExtras -array \
-	"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
-	"/System/Library/CoreServices/Menu Extras/AirPort.menu";ok
+# running "Set highlight color to green"
+# defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600";ok
 
-running "Set highlight color to green"
-defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600";ok
-
-running "Set sidebar icon size to medium"
-defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2;ok
+# running "Set sidebar icon size to medium"
+# defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2;ok
 
 # # Always show scrollbars
 # defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
@@ -115,70 +112,70 @@ defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2;ok
 # (Uncomment if you're on an older Mac that messes up the animation)
 #defaults write NSGlobalDomain NSScrollAnimationEnabled -bool false
 
-running "Increase window resize speed for Cocoa applications"
-defaults write NSGlobalDomain NSWindowResizeTime -float 0.001;ok
+# running "Increase window resize speed for Cocoa applications"
+# defaults write NSGlobalDomain NSWindowResizeTime -float 0.001;ok
 
-running "Expand save panel by default"
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true;ok
+# running "Expand save panel by default"
+# defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+# defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true;ok
 
-running "Expand print panel by default"
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true;ok
+# running "Expand print panel by default"
+# defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+# defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true;ok
 
-running "Save to disk (not to iCloud) by default"
-defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false;ok
+# running "Save to disk (not to iCloud) by default"
+# defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false;ok
 
 running "Automatically quit printer app once the print jobs complete"
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true;ok
 
-running "Disable the 'Are you sure you want to open this application?' dialog"
-defaults write com.apple.LaunchServices LSQuarantine -bool false;ok
+# running "Disable the 'Are you sure you want to open this application?' dialog"
+# defaults write com.apple.LaunchServices LSQuarantine -bool false;ok
 
 running "Remove duplicates in the 'Open With' menu (also see 'lscleanup' alias)"
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user;ok
 
-running "Display ASCII control characters using caret notation in standard text views"
-# Try e.g. `cd /tmp; unidecode "\x{0000}" > cc.txt; open -e cc.txt`
-defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true;ok
+# running "Display ASCII control characters using caret notation in standard text views"
+# # Try e.g. `cd /tmp; unidecode "\x{0000}" > cc.txt; open -e cc.txt`
+# defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true;ok
 
-running "Disable Resume system-wide"
-defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false;ok
+# running "Disable Resume system-wide"
+# defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false;ok
 
-running "Disable automatic termination of inactive apps"
-defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true;ok
+# running "Disable automatic termination of inactive apps"
+# defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true;ok
 
 # Disable the crash reporter
 #defaults write com.apple.CrashReporter DialogType -string "none"
 
-running "Set Help Viewer windows to non-floating mode"
-defaults write com.apple.helpviewer DevMode -bool true;ok
+# running "Set Help Viewer windows to non-floating mode"
+# defaults write com.apple.helpviewer DevMode -bool true;ok
 
 # Fix for the ancient UTF-8 bug in QuickLook (https://mths.be/bbo)
 # Commented out, as this is known to cause problems in various Adobe apps :(
 # See https://github.com/mathiasbynens/dotfiles/issues/237
 #echo "0x08000100:0" > ~/.CFUserTextEncoding
 
-running "Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window"
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName;ok
+# running "Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window"
+# sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName;ok
 
 running "Disable guest account login"
 sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false;ok
 
-running "Restart automatically if the computer freezes"
-sudo systemsetup -setrestartfreeze on;ok
+# running "Restart automatically if the computer freezes"
+# sudo systemsetup -setrestartfreeze on;ok
 
-running "Never go into computer sleep mode"
-sudo systemsetup -setcomputersleep Off > /dev/null;ok
+# running "Never go into computer sleep mode"
+# sudo systemsetup -setcomputersleep Off > /dev/null;ok
 
 # # Disable Notification Center and remove the menu bar icon
 # launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
-running "Disable smart quotes as they're annoying when typing code"
-defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false;ok
+# running "Disable smart quotes as they're annoying when typing code"
+# defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false;ok
 
-running "Disable smart dashes as they're annoying when typing code"
-defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false;ok
+# running "Disable smart dashes as they're annoying when typing code"
+# defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false;ok
 
 # Set a custom wallpaper image. `DefaultDesktop.jpg` is already a symlink, and
 # all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
@@ -187,30 +184,30 @@ defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false;ok
 #sudo ln -s /path/to/your/image /System/Library/CoreServices/DefaultDesktop.jpg
 
 ###############################################################################
-bot "SSD-specific tweaks"
+# bot "SSD-specific tweaks"
 ###############################################################################
 
-running "Disable hibernation (speeds up entering sleep mode)"
-sudo pmset -a hibernatemode 0;ok
+# running "Disable hibernation (speeds up entering sleep mode)"
+# sudo pmset -a hibernatemode 0;ok
 
-running "Remove the sleep image file to save disk space"
-sudo rm /private/var/vm/sleepimage;ok
-running "Create a zero-byte file instead..."
-sudo touch /private/var/vm/sleepimage;ok
-running "...and make sure it can't be rewritten"
-sudo chflags uchg /private/var/vm/sleepimage;ok
+# running "Remove the sleep image file to save disk space"
+# sudo rm /private/var/vm/sleepimage;ok
+# running "Create a zero-byte file instead..."
+# sudo touch /private/var/vm/sleepimage;ok
+# running "...and make sure it can't be rewritten"
+# sudo chflags uchg /private/var/vm/sleepimage;ok
 
-running "Disable the sudden motion sensor as it's not useful for SSDs"
-sudo pmset -a sms 0;ok
+# running "Disable the sudden motion sensor as it's not useful for SSDs"
+# sudo pmset -a sms 0;ok
 
 ###############################################################################
 bot "Trackpad, mouse, keyboard, Bluetooth accessories, and input"
 ###############################################################################
 
-# running "Trackpad: enable tap to click for this user and for the login screen"
-# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-# defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-# defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1;ok
+running "Trackpad: enable tap to click for this user and for the login screen"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1;ok
 
 # # Trackpad: map bottom right corner to right-click
 # defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
@@ -252,8 +249,8 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 20;ok
 # # Set the timezone; see `sudo systemsetup -listtimezones` for other values
 # sudo systemsetup -settimezone "Europe/Brussels" > /dev/null
 
-running "Disable auto-correct"
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false;ok
+# running "Disable auto-correct"
+# defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false;ok
 
 # Stop iTunes from responding to the keyboard media keys
 #launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
@@ -266,30 +263,31 @@ running "Require password immediately after sleep or screen saver begins"
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0;ok
 
-running "Save screenshots to the desktop"
-defaults write com.apple.screencapture location -string "${HOME}/Desktop";ok
+running "Save screenshots to a folder"
+mkdir -p "${HOME}/Screenshots"
+defaults write com.apple.screencapture location -string "${HOME}/Screenshots";ok
 
 running "Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)"
 defaults write com.apple.screencapture type -string "png";ok
 
-running "Disable shadow in screenshots"
-defaults write com.apple.screencapture disable-shadow -bool true;ok
+# running "Disable shadow in screenshots"
+# defaults write com.apple.screencapture disable-shadow -bool true;ok
 
-running "Enable subpixel font rendering on non-Apple LCDs"
-defaults write NSGlobalDomain AppleFontSmoothing -int 2;ok
+# running "Enable subpixel font rendering on non-Apple LCDs"
+# defaults write NSGlobalDomain AppleFontSmoothing -int 2;ok
 
-running "Enable HiDPI display modes (requires restart)"
-sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true;ok
+# running "Enable HiDPI display modes (requires restart)"
+# sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true;ok
 
 ###############################################################################
 bot "Finder"
 ###############################################################################
 
-running "Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons"
-defaults write com.apple.finder QuitMenuItem -bool true;ok
+# running "Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons"
+# defaults write com.apple.finder QuitMenuItem -bool true;ok
 
-running "Finder: disable window animations and Get Info animations"
-defaults write com.apple.finder DisableAllAnimations -bool true;ok
+# running "Finder: disable window animations and Get Info animations"
+# defaults write com.apple.finder DisableAllAnimations -bool true;ok
 
 running "Set Desktop as the default location for new Finder windows"
 # For other paths, use `PfLo` and `file:///full/path/here/`
@@ -336,10 +334,10 @@ running "Avoid creating .DS_Store files on network or USB volumes"
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true;ok
 
-running "Disable disk image verification"
-defaults write com.apple.frameworks.diskimages skip-verify -bool true
-defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
-defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true;ok
+# running "Disable disk image verification"
+# defaults write com.apple.frameworks.diskimages skip-verify -bool true
+# defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
+# defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true;ok
 
 running "Automatically open a new Finder window when a volume is mounted"
 defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
@@ -376,8 +374,8 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv";ok
 running "Disable the warning before emptying the Trash"
 defaults write com.apple.finder WarnOnEmptyTrash -bool false;ok
 
-running "Enable AirDrop over Ethernet and on unsupported Macs running Lion"
-defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true;ok
+# running "Enable AirDrop over Ethernet and on unsupported Macs running Lion"
+# defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true;ok
 
 # # Enable the MacBook Air SuperDrive on any Mac
 # sudo nvram boot-args="mbasd=1"
@@ -429,8 +427,8 @@ defaults write com.apple.dock persistent-apps -array;ok
 running "Show only open applications in the Dock"
 defaults write com.apple.dock static-only -bool true;ok
 
-running "Don't animate opening applications from the Dock"
-defaults write com.apple.dock launchanim -bool false
+# running "Don't animate opening applications from the Dock"
+# defaults write com.apple.dock launchanim -bool false
 
 running "Speed up Mission Control animations"
 defaults write com.apple.dock expose-animation-duration -float 0.1;ok
@@ -439,11 +437,11 @@ running "Don't group windows by application in Mission Control"
 # (i.e. use the old Exposé behavior instead)
 defaults write com.apple.dock expose-group-by-app -bool false;ok
 
-running "Disable Dashboard"
-defaults write com.apple.dashboard mcx-disabled -bool true;ok
+# running "Disable Dashboard"
+# defaults write com.apple.dashboard mcx-disabled -bool true;ok
 
-running "Don't show Dashboard as a Space"
-defaults write com.apple.dock dashboard-in-overlay -bool true;ok
+# running "Don't show Dashboard as a Space"
+# defaults write com.apple.dock dashboard-in-overlay -bool true;ok
 
 running "Don't automatically rearrange Spaces based on most recent use"
 defaults write com.apple.dock mru-spaces -bool false;ok
@@ -463,8 +461,8 @@ defaults write com.apple.dock showhidden -bool true;ok
 # Disable the Launchpad gesture (pinch with thumb and three fingers)
 #defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
 
-running "Reset Launchpad, but keep the desktop wallpaper intact"
-find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -delete;ok
+# running "Reset Launchpad, but keep the desktop wallpaper intact"
+# find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -delete;ok
 
 # Add iOS & Watch Simulator to Launchpad
 # sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app" "/Applications/Simulator.app"
