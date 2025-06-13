@@ -1,10 +1,4 @@
-tap 'caskroom/cask'
-tap 'homebrew/bundle'
-tap 'homebrew/core'
-tap 'homebrew/cask-fonts'
-tap 'homebrew/services'
-tap 'homebrew/versions'
-tap 'homebrew/dupes'
+tap 'homebrew/cask'
 tap 'ngrok/ngrok'
 
 # Packages
