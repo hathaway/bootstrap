@@ -32,21 +32,21 @@ fi
 # Run Oh My Zsh setup
 bold "🔧 Running Oh My Zsh setup..."
 say "📥 Downloading Oh My Zsh script..."
-curl -fsSL -o /tmp/oh_my_zsh.sh https://raw.githubusercontent.com/hathaway/dotfiles/HEAD/bin/oh_my_zsh.sh
+curl -fsSL -o /tmp/oh_my_zsh.sh https://raw.githubusercontent.com/hathaway/bootstrap/HEAD/bin/oh_my_zsh.sh
 chmod +x /tmp/oh_my_zsh.sh
 /tmp/oh_my_zsh.sh
 
 # Run Homebrew setup
 bold "🍺 Running Homebrew setup..."
 say "📥 Downloading Homebrew script..."
-curl -fsSL -o /tmp/homebrew.sh https://raw.githubusercontent.com/hathaway/dotfiles/HEAD/bin/homebrew.sh
+curl -fsSL -o /tmp/homebrew.sh https://raw.githubusercontent.com/hathaway/bootstrap/HEAD/bin/homebrew.sh
 chmod +x /tmp/homebrew.sh
 /tmp/homebrew.sh
 
 # Run macOS configuration
 bold "⚙️ Running macOS configuration..."
 say "📥 Downloading macOS configuration script..."
-curl -fsSL -o /tmp/macos.sh https://raw.githubusercontent.com/hathaway/dotfiles/HEAD/bin/macos.sh
+curl -fsSL -o /tmp/macos.sh https://raw.githubusercontent.com/hathaway/bootstrap/HEAD/bin/macos.sh
 chmod +x /tmp/macos.sh
 /tmp/macos.sh
 
