@@ -1,59 +1,67 @@
 #!/usr/bin/env bash
 
-if ! declare -F echos >/dev/null; then
+set -euo pipefail
+
+if ! declare -F echos >/dev/null 2>&1; then
     source lib/echos.sh
 fi
 
-if ! declare -F requirers >/dev/null; then
+if ! declare -F requirers >/dev/null 2>&1; then
     source lib/requirers.sh
 fi
 
 #####
 # install homebrew (CLI Packages)
 #####
-bot "I'm going to install homebrew and all of your packages and apps in the Brewfile."
+bot "I'm going to install Homebrew and all your packages and apps in the Brewfile."
 
 running "checking homebrew install"
-brew_bin=$(which brew) 2>&1 > /dev/null
-if [[ $? != 0 ]]; then
+if ! command -v brew >/dev/null 2>&1; then
   action "installing homebrew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  if [[ $? != 0 ]]; then
-    error "unable to install homebrew, script $0 abort!"
+  if ! command -v brew >/dev/null 2>&1; then
+    error "❌ Unable to install Homebrew. Aborting!"
     exit 2
   fi
 else
   ok
-  # Make sure we’re using the latest Homebrew
-  running "updating homebrew"
-  brew update
-  ok
-  bot "before installing brew packages, we can upgrade any outdated packages."
-  read -r -p "run brew upgrade? [y|N] " response
-  if [[ $response =~ ^(y|yes|Y) ]];then
-      # Upgrade any already-installed formulae
-      action "upgrade brew packages..."
-      brew upgrade
-      ok "brews updated..."
-  else
-      ok "skipped brew package upgrades.";
-  fi
 fi
 
-# Brewfile
-read -r -p "run brew bundle? [y|N] " response
-if [[ $response =~ ^(y|yes|Y) ]];then
-  running "bundling the Brewfile"
+# Ensure brew is initialized for the shell
+eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null)" || true
+
+running "updating homebrew"
+brew update
+ok
+
+bot "Before installing Brew packages, we can upgrade any outdated packages."
+read -r -p "Run 'brew upgrade'? [y/N] " response
+if [[ "$response" =~ ^[Yy](es)?$ ]]; then
+  action "Upgrading brew packages..."
+  brew upgrade
+  ok "Brew packages upgraded."
+else
+  ok "Skipped brew package upgrades."
+fi
+
+# Run Brewfile bundle
+read -r -p "Run 'brew bundle'? [y/N] " response
+if [[ "$response" =~ ^[Yy](es)?$ ]]; then
+  running "Bundling the Brewfile..."
   brew bundle --file=./config/Brewfile
-  ok
+  ok "Brewfile installed."
+else
+  ok "Skipped brew bundle."
 fi
 
-# Cleanup homebrew
-read -r -p "run brew cleanup? [y|N] " response
-if [[ $response =~ ^(y|yes|Y) ]];then
-  running "cleanup homebrew"
-  brew cleanup > /dev/null 2>&1
-  ok
+# Cleanup
+read -r -p "Run 'brew cleanup'? [y/N] " response
+if [[ "$response" =~ ^[Yy](es)?$ ]]; then
+  running "Cleaning up Homebrew..."
+  brew cleanup
+  ok "Homebrew cleaned."
+else
+  ok "Skipped cleanup."
 fi
 
-bot "Woot! All done."
+bot "🎉 All done!"
