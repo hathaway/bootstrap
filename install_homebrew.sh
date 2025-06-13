@@ -108,7 +108,8 @@ if prompt "Run 'brew bundle' to install from a Brewfile?"; then
     fi
 
   elif [[ "$bundle_choice" == "2" ]]; then
-    read -r -p "🔗 Enter GitHub repo (e.g. user/repo or user/repo@branch): " repo_input
+    read -r -p "🔗 Enter GitHub repo (e.g. user/repo or user/repo@branch) [hathaway/dotfiles]: " repo_input
+    repo_input="${repo_input:-hathaway/dotfiles}"
     repo="${repo_input%@*}"
     branch="${repo_input#*@}"
     [[ "$repo_input" == "$branch" ]] && branch="HEAD"
