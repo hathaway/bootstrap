@@ -107,9 +107,27 @@ defaults write com.apple.dock wvous-tl-modifier -int 0
 ### Finder preferences
 say "📂 Configuring Finder..."
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Set Finder favorites
+say "📁 Setting Finder favorites..."
+FAVORITES=(
+  "com.apple.LSSharedFileList.FavoriteItems:0:/System/Library/CoreServices/Finder.app/Contents/Applications/AirDrop.app"
+  "com.apple.LSSharedFileList.FavoriteItems:1:/System/Library/CoreServices/Finder.app/Contents/Applications/Recents.app"
+  "com.apple.LSSharedFileList.FavoriteItems:2:/Applications"
+  "com.apple.LSSharedFileList.FavoriteItems:3:~/Desktop"
+  "com.apple.LSSharedFileList.FavoriteItems:4:~/Documents"
+  "com.apple.LSSharedFileList.FavoriteItems:5:~/Downloads"
+  "com.apple.LSSharedFileList.FavoriteItems:6:~/Projects"
+  "com.apple.LSSharedFileList.FavoriteItems:7:~/Screenshots"
+)
+
+for favorite in "${FAVORITES[@]}"; do
+  IFS=":" read -r key index path <<< "$favorite"
+  defaults write com.apple.finder "$key" -array-add "<dict><key>Index</key><integer>$index</integer><key>URL</key><string>file://$path</string></dict>"
+done
 defaults write com.apple.finder ShowStatusBar -bool true
 defaults write com.apple.finder ShowPathbar -bool true
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool false
 defaults write com.apple.finder _FXSortFoldersFirst -bool true
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 defaults write NSGlobalDomain com.apple.springing.enabled -bool true
