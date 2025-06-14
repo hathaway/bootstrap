@@ -33,11 +33,15 @@ require_sudo_session() {
 require_sudo_session
 
 ### Prompt for computer name / hostname
-read -r -p "📛 Enter a name for your computer: " computer_name
-sudo scutil --set ComputerName "$computer_name"
-sudo scutil --set HostName "$computer_name"
-sudo scutil --set LocalHostName "$computer_name"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$computer_name"
+if prompt "Would you like to set a name for your computer?"; then
+  read -r -p "📛 Enter a name for your computer: " computer_name
+  sudo scutil --set ComputerName "$computer_name"
+  sudo scutil --set HostName "$computer_name"
+  sudo scutil --set LocalHostName "$computer_name"
+  sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$computer_name"
+else
+  say "Skipping computer naming."
+fi
 
 ### Dock settings
 say "🔧 Configuring Dock..."
