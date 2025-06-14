@@ -30,6 +30,10 @@ else
   say "Skipping computer naming."
 fi
 
+### Disable app quarantine warning
+echo "🚫 Disabling 'Are you sure you want to open this?' prompts..."
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
 ### Dock settings
 say "🔧 Configuring Dock..."
 defaults write com.apple.dock autohide -bool true
@@ -40,10 +44,6 @@ defaults write com.apple.dock mru-spaces -bool false
 defaults write com.apple.dock expose-animation-duration -float 0.1
 defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock showAppExposeGestureEnabled -bool true
-
-### Disable app quarantine warning
-echo "🚫 Disabling 'Are you sure you want to open this?' prompts..."
-defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 # Clean Dock and add preferred apps
 say "🧼 Customizing Dock icons..."
@@ -61,7 +61,7 @@ apps_to_add=(
   "/Applications/ChatGPT.app"
   "/Applications/Zed.app"
   "/Applications/GitHub Desktop.app"
-  "/Applications/Messages.app"
+  "/System/Applications/Messages.app"
   "/Applications/Sequel Ace.app"
   "/Applications/iTerm.app"
 )
