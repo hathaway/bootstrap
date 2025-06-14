@@ -108,32 +108,10 @@ defaults write com.apple.dock wvous-tl-modifier -int 0
 say "📂 Configuring Finder..."
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-# Turn off Tags and Network locations in Finder sidebar
-say "🔧 Turning off Tags and Network locations in Finder sidebar..."
-/usr/libexec/PlistBuddy -c "Set :networkbrowser:CustomListProperties:ShowServersList false" ~/Library/Preferences/com.apple.sidebarlists.plist || true
-/usr/libexec/PlistBuddy -c "Set :favorites:CustomListProperties:ShowTags false" ~/Library/Preferences/com.apple.sidebarlists.plist || true
-
-# Set Finder favorites
-say "📁 Setting Finder favorites..."
-/usr/libexec/PlistBuddy -c "Delete :favorites:VolumesList" ~/Library/Preferences/com.apple.sidebarlists.plist || true
-/usr/libexec/PlistBuddy -c "Add :favorites:VolumesList array" ~/Library/Preferences/com.apple.sidebarlists.plist
-
-FAVORITES=(
-  "file:///System/Library/CoreServices/Finder.app/Contents/Applications/AirDrop.app"
-  "file:///System/Library/CoreServices/Finder.app/Contents/Applications/Recents.app"
-  "file:///Applications"
-  "file://$HOME/Downloads"
-  "file://$HOME/Desktop"
-  "file://$HOME/Documents"
-)
-
-for favorite in "${FAVORITES[@]}"; do
-  /usr/libexec/PlistBuddy -c "Add :favorites:VolumesList: dict" ~/Library/Preferences/com.apple.sidebarlists.plist
-  /usr/libexec/PlistBuddy -c "Add :favorites:VolumesList:0:Name string $(basename "$favorite")" ~/Library/Preferences/com.apple.sidebarlists.plist
-  /usr/libexec/PlistBuddy -c "Add :favorites:VolumesList:0:URL string $favorite" ~/Library/Preferences/com.apple.sidebarlists.plist
-done
 defaults write com.apple.finder ShowStatusBar -bool true
 defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder NewWindowTarget -string "PfDe"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool false
 defaults write com.apple.finder _FXSortFoldersFirst -bool true
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
