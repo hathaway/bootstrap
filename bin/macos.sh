@@ -142,12 +142,12 @@ defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int
 
 ### Safari settings
 say "🌐 Configuring Safari..."
-defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
-defaults write com.apple.Safari ShowFavoritesBar -bool false
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
-defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+plutil -replace ShowFullURLInSmartSearchField -bool true ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
+plutil -replace ShowFavoritesBar -bool false ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
+plutil -replace IncludeDevelopMenu -bool true ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
+plutil -replace WebKitDeveloperExtrasEnabledPreferenceKey -bool true ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
+plutil -replace com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
+plutil -replace WebKitDeveloperExtras -bool true ~/Library/Preferences/.GlobalPreferences.plist
 
 ### Mail settings
 say "✉️ Configuring Mail.app..."
@@ -160,4 +160,4 @@ defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 say "💻 Configuring iTerm2..."
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
-bold "✅ macOS configuration complete!"
+bold "✅ macOS configuration complete! You may need to restart your computer for some changes to take effect."
