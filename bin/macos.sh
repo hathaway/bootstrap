@@ -92,6 +92,18 @@ dockutil --add "$HOME/Downloads"  --view grid --display folder --sort dateadded 
 
 killall Dock
 
+### Hot Corners
+say "🖱 Configuring Hot Corners..."
+# Top right: Show Notification Center
+defaults write com.apple.dock wvous-tr-corner -int 12
+defaults write com.apple.dock wvous-tr-modifier -int 0
+# Bottom right: Show Desktop
+defaults write com.apple.dock wvous-br-corner -int 4
+defaults write com.apple.dock wvous-br-modifier -int 0
+# Top left: App Exposé
+defaults write com.apple.dock wvous-tl-corner -int 2
+defaults write com.apple.dock wvous-tl-modifier -int 0
+
 ### Finder preferences
 say "📂 Configuring Finder..."
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
