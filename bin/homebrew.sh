@@ -67,6 +67,10 @@ bold "🍺 Homebrew Setup Starting..."
 
 require_sudo_session
 
+### Disable app quarantine warning ahead of downloading the apps so they don't get the quarantine flag
+echo "🚫 Disabling 'Are you sure you want to open this?' prompts..."
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
 # Install Homebrew if needed
 if ! command -v brew >/dev/null 2>&1; then
   say "Homebrew not found. Installing..."

@@ -9,6 +9,19 @@ prompt() {
   [[ "$response" =~ ^[Yy](es)?$ ]]
 }
 
+remove_quarantine_safe() {
+  local app_path="$1"
+  local tmp="/tmp/$(basename "$app_path")"
+  if [[ -d "$app_path" ]]; then
+    echo "🧼 Stripping quarantine from: $app_path"
+    sudo mv "$app_path" "$tmp"
+    xattr -dr com.apple.quarantine "$tmp"
+    sudo mv "$tmp" "/Applications/"
+  else
+    echo "⚠️ App not found: $app_path"
+  fi
+}
+
 bold "⚙️ Configuring macOS system preferences..."
 
 ### Ask for sudo up front
@@ -41,8 +54,18 @@ defaults write com.apple.dock showAppExposeGestureEnabled -bool true
 echo "🚫 Disabling 'Are you sure you want to open this?' prompts..."
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
-# Strip quarantine flag from known apps
-xattr -dr com.apple.quarantine /Applications/*
+# Optional: strip quarantine flag from known apps
+for app in \
+  "/Applications/Slack.app" \
+  "/Applications/Google Chrome.app" \
+  "/Applications/ChatGPT.app" \
+  "/Applications/Zed.app" \
+  "/Applications/GitHub Desktop.app"; do
+  if [ -d "$app" ]; then
+    remove_quarantine_safe "$app"
+    echo "✅ Removed quarantine from $app"
+  fi
+done
 
 # Clean Dock and add preferred apps
 say "🧼 Customizing Dock icons..."
