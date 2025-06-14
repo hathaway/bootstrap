@@ -178,6 +178,7 @@ cask 'sublime-merge'
 cask 'sublime-text'
 # cask 'spectacle'
 # cask 'the-unarchiver'
+cask 'trello'
 # cask 'vagrant'
 # cask 'vagrant-manager'
 # cask 'virtualbox'
@@ -189,10 +190,12 @@ cask 'zoom'
 
 
 # Mac App Store applications
+mas 'Drafts', id: 1435957248
 mas 'Hush Nag Blocker', id: 1544743900
 mas 'Sequel Ace', id: 1518036000
 mas 'Things 3', id: 904280696
 mas 'Tot', id: 1491071483
+mas 'Trello', id: 1278508951
 mas 'Vinegar', id: 1591303229
 mas 'Xcode', id: 497799835
 # mas 'WhatsApp Messenger', id: 310633997
