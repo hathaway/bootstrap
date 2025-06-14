@@ -108,6 +108,11 @@ defaults write com.apple.dock wvous-tl-modifier -int 0
 say "📂 Configuring Finder..."
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
+# Turn off Tags and Network locations in Finder sidebar
+say "🔧 Turning off Tags and Network locations in Finder sidebar..."
+defaults write com.apple.finder ShowRecentTags -bool false
+defaults write com.apple.sidebarlists networkbrowser -dict-add ShowServersList -bool false
+
 # Set Finder favorites
 say "📁 Setting Finder favorites..."
 FAVORITES=(
