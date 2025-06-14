@@ -143,22 +143,6 @@ defaults write -g InitialKeyRepeat -int 10
 say "🎧 Improving Bluetooth audio quality..."
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
-### Safari settings
-say "🌐 Configuring Safari..."
-plutil -replace ShowFullURLInSmartSearchField -bool true ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
-plutil -replace ShowFavoritesBar -bool false ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
-plutil -replace IncludeDevelopMenu -bool true ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
-plutil -replace WebKitDeveloperExtrasEnabledPreferenceKey -bool true ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
-plutil -replace com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true ~/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
-plutil -replace WebKitDeveloperExtras -bool true ~/Library/Preferences/.GlobalPreferences.plist
-
-### Mail settings
-say "✉️ Configuring Mail.app..."
-defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
-
-# Enable ⌘ + Enter to send mail
-/usr/libexec/PlistBuddy -c "Add :NSUserKeyEquivalents:Send string '@\\U21a9'" ~/Library/Preferences/com.apple.mail.plist || true
-
 ### iTerm: suppress quit prompt
 say "💻 Configuring iTerm2..."
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
