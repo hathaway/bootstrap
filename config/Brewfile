@@ -1,7 +1,6 @@
 tap 'ngrok/ngrok'
 
 # Packages
-brew '1password-cli'
 brew 'ack'
 # Extendable version manager with support for Ruby, Node.js, Erlang & more
 brew 'asdf'
@@ -134,6 +133,7 @@ brew 'zstd'
 
 # Applications
 cask '1password'
+cask '1password-cli'
 cask 'arc'
 # cask 'alfred'
 # cask 'anvil'
