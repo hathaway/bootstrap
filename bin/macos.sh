@@ -37,6 +37,13 @@ defaults write com.apple.dock expose-animation-duration -float 0.1
 defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock showAppExposeGestureEnabled -bool true
 
+### Disable app quarantine warning
+echo "🚫 Disabling 'Are you sure you want to open this?' prompts..."
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+# Strip quarantine flag from known apps
+xattr -dr com.apple.quarantine /Applications/*
+
 # Clean Dock and add preferred apps
 say "🧼 Customizing Dock icons..."
 if ! command -v dockutil &>/dev/null; then
