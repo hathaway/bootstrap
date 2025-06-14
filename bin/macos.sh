@@ -110,25 +110,27 @@ defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
 # Turn off Tags and Network locations in Finder sidebar
 say "🔧 Turning off Tags and Network locations in Finder sidebar..."
-defaults write com.apple.finder ShowRecentTags -bool false
-defaults write com.apple.sidebarlists networkbrowser -dict-add ShowServersList -bool false
+/usr/libexec/PlistBuddy -c "Set :networkbrowser:CustomListProperties:ShowServersList false" ~/Library/Preferences/com.apple.sidebarlists.plist || true
+/usr/libexec/PlistBuddy -c "Set :favorites:CustomListProperties:ShowTags false" ~/Library/Preferences/com.apple.sidebarlists.plist || true
 
 # Set Finder favorites
 say "📁 Setting Finder favorites..."
+/usr/libexec/PlistBuddy -c "Delete :favorites:VolumesList" ~/Library/Preferences/com.apple.sidebarlists.plist || true
+/usr/libexec/PlistBuddy -c "Add :favorites:VolumesList array" ~/Library/Preferences/com.apple.sidebarlists.plist
+
 FAVORITES=(
-  "com.apple.LSSharedFileList.FavoriteItems:0:/System/Library/CoreServices/Finder.app/Contents/Applications/AirDrop.app"
-  "com.apple.LSSharedFileList.FavoriteItems:1:/System/Library/CoreServices/Finder.app/Contents/Applications/Recents.app"
-  "com.apple.LSSharedFileList.FavoriteItems:2:/Applications"
-  "com.apple.LSSharedFileList.FavoriteItems:3:~/Desktop"
-  "com.apple.LSSharedFileList.FavoriteItems:4:~/Documents"
-  "com.apple.LSSharedFileList.FavoriteItems:5:~/Downloads"
-  "com.apple.LSSharedFileList.FavoriteItems:6:~/Projects"
-  "com.apple.LSSharedFileList.FavoriteItems:7:~/Screenshots"
+  "file:///System/Library/CoreServices/Finder.app/Contents/Applications/AirDrop.app"
+  "file:///System/Library/CoreServices/Finder.app/Contents/Applications/Recents.app"
+  "file:///Applications"
+  "file://$HOME/Downloads"
+  "file://$HOME/Desktop"
+  "file://$HOME/Documents"
 )
 
 for favorite in "${FAVORITES[@]}"; do
-  IFS=":" read -r key index path <<< "$favorite"
-  defaults write com.apple.finder "$key" -array-add "<dict><key>Index</key><integer>$index</integer><key>URL</key><string>file://$path</string></dict>"
+  /usr/libexec/PlistBuddy -c "Add :favorites:VolumesList: dict" ~/Library/Preferences/com.apple.sidebarlists.plist
+  /usr/libexec/PlistBuddy -c "Add :favorites:VolumesList:0:Name string $(basename "$favorite")" ~/Library/Preferences/com.apple.sidebarlists.plist
+  /usr/libexec/PlistBuddy -c "Add :favorites:VolumesList:0:URL string $favorite" ~/Library/Preferences/com.apple.sidebarlists.plist
 done
 defaults write com.apple.finder ShowStatusBar -bool true
 defaults write com.apple.finder ShowPathbar -bool true
