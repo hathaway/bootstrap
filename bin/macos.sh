@@ -108,7 +108,7 @@ defaults write com.apple.dock wvous-tl-modifier -int 0
 say "📂 Configuring Finder..."
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-defaults write com.apple.finder ShowStatusBar -bool true
+defaults write com.apple.finder ShowStatusBar -bool false
 defaults write com.apple.finder ShowPathbar -bool true
 defaults write com.apple.finder NewWindowTarget -string "PfDe"
 defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
