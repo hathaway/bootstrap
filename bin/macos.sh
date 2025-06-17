@@ -137,7 +137,7 @@ defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write -g ApplePressAndHoldEnabled -bool false
 defaults write -g KeyRepeat -int 1
-defaults write -g InitialKeyRepeat -int 10
+defaults write -g InitialKeyRepeat -int 20
 
 ### Bluetooth audio
 say "🎧 Improving Bluetooth audio quality..."
