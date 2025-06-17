@@ -191,6 +191,7 @@ cask 'zoom'
 # Mac App Store applications
 mas 'Drafts', id: 1435957248
 mas 'Hush Nag Blocker', id: 1544743900
+mas 'Magnet', id: 441258766
 mas 'Sequel Ace', id: 1518036000
 mas 'Things 3', id: 904280696
 mas 'Tot', id: 1491071483
