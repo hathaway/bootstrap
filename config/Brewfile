@@ -32,6 +32,7 @@ brew 'gawk'
 brew 'gcc'
 # GitHub command-line tool
 brew 'gh'
+brew 'git'
 # Core application library for C
 brew 'glib'
 brew 'gdbm'
@@ -73,6 +74,7 @@ brew 'node'
 brew 'numpy'
 # Cryptography and SSL/TLS Toolkit
 brew 'openssl@3'
+brew 'pinentry-mac'
 # brew 'pkg-config'
 # brew 'pv'
 # Python version management
@@ -191,6 +193,7 @@ cask 'zoom'
 # Mac App Store applications
 mas 'Drafts', id: 1435957248
 mas 'Hush Nag Blocker', id: 1544743900
+mas 'Magnet', id: 441258766
 mas 'Sequel Ace', id: 1518036000
 mas 'Things 3', id: 904280696
 mas 'Tot', id: 1491071483
