@@ -29,8 +29,8 @@ for package in "${FORMULA_CASKS[@]}"; do
 done
 
 # --- asdf ---
-say "Configuring shell for asdf..."
 if ! grep -q 'export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"' ~/.zshrc; then
+  say "Configuring shell for asdf..."
   sed -i '' '/^export/!b; :a; n; $!ba; a\
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 ' ~/.zshrc
@@ -57,3 +57,31 @@ fi
 
 # mkdir -p ~/.config/fish/completions
 # docker completion fish > ~/.config/fish/completions/docker.fish
+
+if ! gh auth status &>/dev/null; then
+  say "Logging into GitHub..."
+  gh auth login
+fi
+
+# --- Clone repositories ---
+REPOS=("mailprotector/ops-tools")
+for repo in "${REPOS[@]}"; do
+  if [ ! -d ~/Projects/$repo ]; then
+    say "Cloning $repo..."
+    gh repo clone "$repo" ~/Projects/$repo
+  fi
+done
+
+# --- Auth checks ---
+if ! op account list | grep -q "SIGNED_IN"; then
+  say "Signing into 1Password..."
+  eval "$(op signin)"
+fi
+
+# --- Copy SSH keys from 1Password into ~/.ssh ---
+SSH_KEYS=("shield-production-bastion" "shield-staging-bastion" "echelon-production-bastion" "echelon-staging-bastion" "bracket-production")
+for ssh_key in "${SSH_KEYS[@]}"; do
+  if op read --out-file "$HOME/.ssh/$ssh_key" "op://Employee/$ssh_key/private key?ssh-format=openssh" --force >/dev/null 2>&1; then
+    say "✅ Copied SSH key $ssh_key from 1Password to $HOME/.ssh/$ssh_key."
+  fi
+done
