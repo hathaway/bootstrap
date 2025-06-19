@@ -72,16 +72,29 @@ for repo in "${REPOS[@]}"; do
   fi
 done
 
-# --- Auth checks ---
-if ! op account list | grep -q "SIGNED_IN"; then
-  say "Signing into 1Password..."
-  eval "$(op signin)"
-fi
+say "Signing into 1Password for SSH keys..."
+eval "$(op signin)"
 
 # --- Copy SSH keys from 1Password into ~/.ssh ---
 SSH_KEYS=("shield-production-bastion" "shield-staging-bastion" "echelon-production-bastion" "echelon-staging-bastion" "bracket-production")
 for ssh_key in "${SSH_KEYS[@]}"; do
-  if op read --out-file "$HOME/.ssh/$ssh_key" "op://Employee/$ssh_key/private key?ssh-format=openssh" --force >/dev/null 2>&1; then
+  if op item get "$ssh_key" --field "private key" --reveal > "$HOME/.ssh/$ssh_key" 2>&1; then
+    chmod 600 $HOME/.ssh/$ssh_key
     say "✅ Copied SSH key $ssh_key from 1Password to $HOME/.ssh/$ssh_key."
+  fi
+done
+
+say "Signing out of 1Password..."
+eval "$(op signout)"
+
+say "Signing into 1Password for AWS files..."
+eval "$(op signin)"
+
+# --- Copy AWS files from 1Password into ~/.aws ---
+AWS_FILES=("config" "credentials")
+for file in "${AWS_FILES[@]}"; do
+  if op document get "aws-$file" --out-file "$HOME/.aws/$file" --force >/dev/null 2>&1; then
+    chmod 600 $HOME/.aws/$file
+    say "✅ Copied $file from 1Password to $HOME/.aws/$file."
   fi
 done
