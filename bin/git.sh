@@ -72,11 +72,8 @@ git config --global pull.rebase false
 command -v op >/dev/null || { say "❌ Install 1Password CLI"; exit 1; }
 command -v gh >/dev/null || { say "❌ Install GitHub CLI"; exit 1; }
 
-# --- Auth checks ---
-if ! op account list | grep -q "SIGNED_IN"; then
-  say "Signing into 1Password..."
-  eval "$(op signin)"
-fi
+say "Signing into 1Password..."
+eval "$(op signin)"
 
 if ! gh auth status &>/dev/null; then
   say "Logging into GitHub..."
