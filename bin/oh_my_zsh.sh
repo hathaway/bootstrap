@@ -44,7 +44,7 @@ else
 fi
 
 # Get full path to zsh
-ZSH_PATH="$(command -v zsh)"
+ZSH_PATH="/bin/zsh"
 
 # Add to /etc/shells if not present
 if ! grep -q "$ZSH_PATH" /etc/shells; then
@@ -59,6 +59,21 @@ if [[ "$SHELL" != "$ZSH_PATH" ]]; then
   say "\033[0;32m✅ Default shell changed to Zsh. Please restart your terminal session.\033[0m"
 else
   say "✅ Zsh is already your default shell."
+fi
+
+# Install zsh-autosuggestions plugin
+say "Checking for zsh-autosuggestions plugin installation..."
+if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]]; then
+  say "📦 Installing zsh-autosuggestions plugin..."
+  git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+else
+  say "✅ zsh-autosuggestions plugin is already installed."
+fi
+
+# Add zsh-autosuggestions to ~/.zshrc plugins list
+if ! grep -q "zsh-autosuggestions" ~/.zshrc; then
+  say "📜 Adding zsh-autosuggestions to plugins list in ~/.zshrc..."
+  sed -i '' '/^plugins=/ s/)/ zsh-autosuggestions)/' ~/.zshrc
 fi
 
 bold "✅ Oh My Zsh setup complete!"
