@@ -106,14 +106,14 @@ else
 fi
 
 KEY_ID=$(gpg --list-secret-keys --keyid-format=long "$GIT_NAME_AND_EMAIL" | grep 'sec' | awk '{print $2}' | cut -d'/' -f2)
-
-# --- Export GPG Public Key for GitHub Upload ---
-say "📤 Preparing GPG public key for GitHub..."
-gpg --armor --export "$GIT_NAME_AND_EMAIL" > "$GPG_PUBKEY_PATH"
   
 # Ask user and ensure correct GitHub scope
 if prompt "Upload GPG public key to GitHub? ($KEY_ID)"; then
   ensure_gh_scope "admin:gpg_key"
+
+  # --- Export GPG Public Key for GitHub Upload ---
+  say "📤 Preparing GPG public key for GitHub..."
+  gpg --armor --export "$GIT_NAME_AND_EMAIL" > "$GPG_PUBKEY_PATH"
 
   # Sanity check: ensure the key is a public key
   if ! grep -q "BEGIN PGP PUBLIC KEY BLOCK" "$GPG_PUBKEY_PATH"; then
@@ -124,9 +124,6 @@ if prompt "Upload GPG public key to GitHub? ($KEY_ID)"; then
   gh gpg-key add "$GPG_PUBKEY_PATH" --title "$GPG_ITEM_TITLE"
 
   say "✅ GPG key uploaded to GitHub."
-else
-  pbcopy < "$GPG_PUBKEY_PATH"
-  say "📋 Public GPG key copied to clipboard."
 fi
 
 # --- GPG Signing Key Configuration ---
