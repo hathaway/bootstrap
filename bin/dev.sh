@@ -46,6 +46,17 @@ if ! asdf list ruby | grep -q "$(asdf latest ruby)"; then
   asdf install ruby latest
 fi
 
+# --- Install Ruby Gems ---
+RUBY_GEMS=("ruby-lsp" "solargraph")
+for gem in "${RUBY_GEMS[@]}"; do
+  if ! gem list | grep -q "^$gem "; then
+    say "Installing Ruby gem: $gem..."
+    gem install "$gem"
+  fi
+done
+
+
+
 # --- Docker ---
 if [ ! -f ~/.oh-my-zsh/completions/_docker ]; then
   say "Configuring Docker completions..."
