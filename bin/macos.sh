@@ -60,10 +60,11 @@ apps_to_add=(
   "/Applications/Google Chrome.app"
   "/Applications/ChatGPT.app"
   "/Applications/Zed.app"
-  "/Applications/GitHub Desktop.app"
-  "/System/Applications/Messages.app"
-  "/Applications/Sequel Ace.app"
-  "/Applications/iTerm.app"
+  # "/Applications/Slack.app"
+  # "/Applications/GitHub Desktop.app"
+  # "/System/Applications/Messages.app"
+  # "/Applications/Sequel Ace.app"
+  # "/Applications/iTerm.app"
 )
 
 for app in "${apps_to_add[@]}"; do
