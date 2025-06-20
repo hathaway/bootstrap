@@ -31,9 +31,7 @@ done
 # --- asdf ---
 if ! grep -q 'export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"' ~/.zshrc; then
   say "Configuring shell for asdf..."
-  sed -i '' '/^export/!b; :a; n; $!ba; a\
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-' ~/.zshrc
+  echo 'export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"' >> ~/.zshrc
   source ~/.zshrc
   say "Finished configuring shell for asdf."
 fi
