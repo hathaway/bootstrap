@@ -171,6 +171,7 @@ cask 'pastebot'
 cask 'postman'
 # Control your tools with a few keystrokes
 cask 'raycast'
+cask 'readdle-spark'
 cask 'session-manager-plugin'
 # cask 'sizeup'
 # cask 'sketchup'
