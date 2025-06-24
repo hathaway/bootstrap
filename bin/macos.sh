@@ -36,6 +36,7 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 ### Dock settings
 say "🔧 Configuring Dock..."
+defaults write com.apple.dock mineffect -string "scale"
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock tilesize -int 48
 defaults write com.apple.dock minimize-to-application -bool true
