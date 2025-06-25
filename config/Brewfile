@@ -169,6 +169,7 @@ cask 'obsidian'
 # cask 'owncloud'
 cask 'pastebot'
 cask 'postman'
+cask 'powershell'
 # Control your tools with a few keystrokes
 cask 'raycast'
 cask 'readdle-spark'
