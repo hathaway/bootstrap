@@ -149,4 +149,22 @@ defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int
 say "💻 Configuring iTerm2..."
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
+### Setup chezmoi auto commit and push
+say "🔄 Setting up chezmoi auto commit and push..."
+CHEZMOI_CONFIG_DIR="$HOME/.config/chezmoi"
+CHEZMOI_CONFIG_FILE="$CHEZMOI_CONFIG_DIR/chezmoi.toml"
+
+mkdir -p "$CHEZMOI_CONFIG_DIR"
+
+if [[ ! -f "$CHEZMOI_CONFIG_FILE" ]]; then
+  cat > "$CHEZMOI_CONFIG_FILE" << EOL
+[git]
+  autoCommit = true
+  autoPush = true
+EOL
+  say "✅ Created chezmoi.toml configuration file."
+else
+  say "ℹ️ chezmoi.toml configuration file already exists. No changes made."
+fi
+
 bold "✅ macOS configuration complete! You may need to restart your computer for some changes to take effect."
