@@ -28,6 +28,25 @@ for package in "${FORMULA_CASKS[@]}"; do
   fi
 done
 
+# --- Node.js ---
+if ! asdf plugin list | grep -q nodejs; then
+  say "Installing Node.js asdf plugin..."
+  asdf plugin add nodejs
+fi
+if ! asdf list nodejs | grep -q "$(asdf latest nodejs)"; then
+  say "Installing Node.js..."
+  asdf install nodejs latest
+fi
+
+# --- Install npm packages ---
+NPM_PACKAGES=("@anthropic-ai/claude-code")
+for package in "${NPM_PACKAGES[@]}"; do
+  if ! npm list -g "$package" &>/dev/null; then
+    say "Installing npm package: $package..."
+    npm install -g "$package"
+  fi
+done
+
 # --- asdf ---
 if ! grep -q 'export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"' ~/.zshrc; then
   say "Configuring shell for asdf..."
@@ -39,7 +58,7 @@ fi
 # --- Ruby ---
 if ! asdf plugin list | grep -q ruby; then
   say "Installing Ruby asdf plugin..."
-  asdf plugin install ruby
+  asdf plugin add ruby
 fi
 if ! asdf list ruby | grep -q "$(asdf latest ruby)"; then
   say "Installing Ruby..."
@@ -81,29 +100,36 @@ for repo in "${REPOS[@]}"; do
   fi
 done
 
-say "Signing into 1Password for SSH keys..."
-eval "$(op signin)"
+if prompt "Would you like to copy SSH keys from 1Password?"; then
+  say "Signing into 1Password for SSH keys..."
+  eval "$(op signin)"
 
-# --- Copy SSH keys from 1Password into ~/.ssh ---
-SSH_KEYS=("shield-production-bastion" "shield-staging-bastion" "echelon-production-bastion" "echelon-staging-bastion" "bracket-production")
-for ssh_key in "${SSH_KEYS[@]}"; do
-  if op item get "$ssh_key" --field "private key" --reveal > "$HOME/.ssh/$ssh_key" 2>&1; then
-    chmod 600 $HOME/.ssh/$ssh_key
-    say "✅ Copied SSH key $ssh_key from 1Password to $HOME/.ssh/$ssh_key."
-  fi
-done
+  # --- Copy SSH keys from 1Password into ~/.ssh ---
+  SSH_KEYS=("shield-production-bastion" "shield-staging-bastion" "echelon-production-bastion" "echelon-staging-bastion" "bracket-production")
+  for ssh_key in "${SSH_KEYS[@]}"; do
+    if op item get "$ssh_key" --field "private key" --reveal > "$HOME/.ssh/$ssh_key" 2>&1; then
+      chmod 600 $HOME/.ssh/$ssh_key
+      say "✅ Copied SSH key $ssh_key from 1Password to $HOME/.ssh/$ssh_key."
+    fi
+  done
 
-say "Signing out of 1Password..."
-eval "$(op signout)"
+  say "Signing out of 1Password..."
+  eval "$(op signout)"
+fi
 
-say "Signing into 1Password for AWS files..."
-eval "$(op signin)"
+if prompt "Would you like to copy AWS files from 1Password?"; then
+  say "Signing into 1Password for AWS files..."
+  eval "$(op signin)"
 
-# --- Copy AWS files from 1Password into ~/.aws ---
-AWS_FILES=("config" "credentials")
-for file in "${AWS_FILES[@]}"; do
-  if op document get "aws-$file" --out-file "$HOME/.aws/$file" --force >/dev/null 2>&1; then
-    chmod 600 $HOME/.aws/$file
-    say "✅ Copied $file from 1Password to $HOME/.aws/$file."
-  fi
-done
+  # --- Copy AWS files from 1Password into ~/.aws ---
+  AWS_FILES=("config" "credentials")
+  for file in "${AWS_FILES[@]}"; do
+    if op document get "aws-$file" --out-file "$HOME/.aws/$file" --force >/dev/null 2>&1; then
+      chmod 600 $HOME/.aws/$file
+      say "✅ Copied $file from 1Password to $HOME/.aws/$file."
+    fi
+  done
+
+  say "Signing out of 1Password..."
+  eval "$(op signout)"
+fi
