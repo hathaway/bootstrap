@@ -162,6 +162,7 @@ cask 'google-chrome'
 cask 'istat-menus'
 cask 'iterm2'
 cask 'little-snitch'
+cask 'logseq'
 cask 'micro-snitch'
 cask 'microsoft-office'
 # Reverse proxy, secure introspectable tunnels to localhost
