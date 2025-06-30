@@ -65,7 +65,7 @@ fetch_remote_brewfiles() {
 
 bold "🍺 Homebrew Setup Starting..."
 
-require_sudo_session
+# require_sudo_session
 
 ### Disable app quarantine warning ahead of downloading the apps so they don't get the quarantine flag
 echo "🚫 Disabling 'Are you sure you want to open this?' prompts..."
@@ -109,8 +109,9 @@ fi
 if prompt "Run 'brew bundle' to install from a Brewfile?"; then
   echo "📦 Choose Brewfile source:"
   echo "1) Use local ~/Brewfile"
-  echo "2) Download from GitHub repo"
-  read -r -p "Enter 1 or 2: " bundle_choice
+  echo "2) Use project Brewfile"
+  echo "3) Download from GitHub repo"
+  read -r -p "Enter 1, 2, or 3: " bundle_choice
 
   if [[ "$bundle_choice" == "1" ]]; then
     local_brewfile="$HOME/Brewfile"
@@ -122,6 +123,15 @@ if prompt "Run 'brew bundle' to install from a Brewfile?"; then
     fi
 
   elif [[ "$bundle_choice" == "2" ]]; then
+    project_brewfile="config/Brewfile"
+    if [[ -f "$project_brewfile" ]]; then
+      say "Using project Brewfile at $project_brewfile..."
+      brew bundle --file="$project_brewfile"
+    else
+      say "❌ No Brewfile found at $project_brewfile"
+    fi
+
+  elif [[ "$bundle_choice" == "3" ]]; then
     read -r -p "🔗 Enter GitHub repo (e.g. user/repo or user/repo@branch) [hathaway/bootstrap]: " repo_input
     repo_input="${repo_input:-hathaway/bootstrap}"
     repo="${repo_input%@*}"
@@ -147,4 +157,4 @@ fi
 bold "✅ Homebrew setup complete!"
 
 # Ensure sudo privileges are released after setup
-sudo -k
+# sudo -k
