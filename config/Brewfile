@@ -194,6 +194,7 @@ cask 'zoom'
 
 
 # Mac App Store applications
+mas 'Bear', id: 1091189122
 mas 'Drafts', id: 1435957248
 mas 'Hush Nag Blocker', id: 1544743900
 mas 'Magnet', id: 441258766
