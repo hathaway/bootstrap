@@ -56,16 +56,17 @@ fi
 dockutil --remove all --no-restart
 
 apps_to_add=(
+  "/Applications/Arc.app"
   "/Applications/Fantastical.app"
   "/Applications/Things3.app"
-  "/Applications/Google Chrome.app"
-  "/Applications/ChatGPT.app"
   "/Applications/Zed.app"
+  # "/Applications/ChatGPT.app"
+  # "/Applications/Claude.app"
   # "/Applications/Slack.app"
   # "/Applications/GitHub Desktop.app"
   # "/System/Applications/Messages.app"
   # "/Applications/Sequel Ace.app"
-  # "/Applications/iTerm.app"
+  # "/Applications/Ghostty.app"
 )
 
 for app in "${apps_to_add[@]}"; do
