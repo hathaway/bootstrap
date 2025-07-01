@@ -154,6 +154,7 @@ cask 'fantastical'
 cask 'font-hack-nerd-font'
 cask 'firefox'
 # cask 'flux'
+cask 'ghostty'
 cask 'github'
 # GitHub notifications on your menu bar
 cask 'gitify'
