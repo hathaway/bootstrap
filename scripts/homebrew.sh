@@ -154,6 +154,28 @@ else
   say "Skipped cleanup."
 fi
 
+# --- Create ~/.local/bin and move scripts ---
+local_bin="$HOME/.local/bin"
+if [[ ! -d "$local_bin" ]]; then
+  say "Creating ~/.local/bin directory..."
+  mkdir -p "$local_bin"
+fi
+
+if ! grep -q "$local_bin" <<< "$PATH"; then
+  say "Adding ~/.local/bin to PATH..."
+  echo "export PATH=\"$local_bin:\$PATH\"" >> ~/.zprofile
+  export PATH="$local_bin:$PATH"
+fi
+
+say "Moving scripts from bin folder to ~/.local/bin..."
+for script in bootstrap/bin/*; do
+  if [[ -f "$script" ]]; then
+    mv "$script" "$local_bin"
+    chmod +x "$local_bin/$(basename "$script")"
+    say "Moved and made executable: $(basename "$script")"
+  fi
+done
+
 bold "✅ Homebrew setup complete!"
 
 # Ensure sudo privileges are released after setup

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    echo "Usage: clone_and_open <user/repo>"
+    echo "Example: clone_and_open hathaway/bootstrap"
+    exit 1
+fi
+
+REPO="$1"
+PROJECTS_DIR="$HOME/Projects"
+REPO_PATH="$PROJECTS_DIR/$REPO"
+GITHUB_URL="https://github.com/${REPO}.git"
+
+# Create Projects directory structure if it doesn't exist
+mkdir -p "$(dirname "$REPO_PATH")"
+
+if [ -d "$REPO_PATH" ]; then
+    echo "Repository already exists at $REPO_PATH, opening in Zed..."
+    zed "$REPO_PATH"
+else
+    echo "Cloning $GITHUB_URL to $REPO_PATH..."
+    git clone "$GITHUB_URL" "$REPO_PATH" && zed "$REPO_PATH"
+fi

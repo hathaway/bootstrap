@@ -133,3 +133,25 @@ if prompt "Would you like to copy AWS files from 1Password?"; then
   say "Signing out of 1Password..."
   eval "$(op signout)"
 fi
+
+# --- Create ~/.local/bin and move scripts ---
+local_bin="$HOME/.local/bin"
+if [[ ! -d "$local_bin" ]]; then
+  say "Creating ~/.local/bin directory..."
+  mkdir -p "$local_bin"
+fi
+
+if ! grep -q 'export PATH="$local_bin:$PATH"' ~/.zshrc; then
+  say "Configuring shell for ~/.local/bin..."
+  echo 'export PATH="$local_bin:$PATH"' >> ~/.zshrc
+  say "Finished configuring shell for ~/.local/bin."
+fi
+
+say "Copying scripts from bin folder to ~/.local/bin..."
+for script in bin/*; do
+  if [[ -f "$script" ]]; then
+    cp "$script" "$local_bin"
+    chmod +x "$local_bin/$(basename "$script")"
+    say "Copied and made executable: $(basename "$script")"
+  fi
+done
