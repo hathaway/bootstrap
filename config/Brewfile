@@ -168,6 +168,7 @@ cask 'micro-snitch'
 cask 'microsoft-office'
 # Reverse proxy, secure introspectable tunnels to localhost
 cask 'ngrok'
+cask 'notion'
 cask 'obsidian'
 # cask 'owncloud'
 cask 'pastebot'
