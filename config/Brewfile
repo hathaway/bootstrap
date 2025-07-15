@@ -169,6 +169,8 @@ cask 'microsoft-office'
 # Reverse proxy, secure introspectable tunnels to localhost
 cask 'ngrok'
 cask 'notion'
+cask 'notion-mail'
+cask 'notion-calendar'
 cask 'obsidian'
 # cask 'owncloud'
 cask 'pastebot'
