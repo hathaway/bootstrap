@@ -18,6 +18,7 @@ brew 'chezmoi'
 brew 'coreutils'
 # cmake is required to compile vim bundle YouCompleteMe
 brew 'cmake'
+brew 'codex'
 # Power of curl, ease of use of httpie
 brew 'curlie'
 brew 'dark-mode'
