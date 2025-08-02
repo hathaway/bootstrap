@@ -121,6 +121,8 @@ if prompt "Would you like to copy AWS files from 1Password?"; then
   say "Signing into 1Password for AWS files..."
   eval "$(op signin)"
 
+  mkdir -p "$HOME/.aws"
+
   # --- Copy AWS files from 1Password into ~/.aws ---
   AWS_FILES=("config" "credentials")
   for file in "${AWS_FILES[@]}"; do
