@@ -31,6 +31,7 @@ brew 'ffmpeg'
 brew 'gawk'
 # GNU compiler collection
 brew 'gcc'
+brew 'gemini-cli'
 # GitHub command-line tool
 brew 'gh'
 brew 'git'
