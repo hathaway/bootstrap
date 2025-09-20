@@ -161,6 +161,7 @@ cask 'github'
 # GitHub notifications on your menu bar
 cask 'gitify'
 cask 'google-chrome'
+cask 'google-drive'
 # cask 'gpgtools'
 cask 'istat-menus'
 cask 'iterm2'
